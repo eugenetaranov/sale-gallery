@@ -14,3 +14,40 @@ body {
 * {
   box-sizing: border-box;
 }
+
+/* Print catalog: kept in the DOM but off-canvas on screen so its cover images
+   preload; @media print reveals it and hides the interactive UI. */
+.print-only {
+  position: absolute;
+  left: -10000px;
+  top: 0;
+  width: 210mm;
+}
+
+@media print {
+  .no-print {
+    display: none !important;
+  }
+  .print-only {
+    position: static;
+    left: 0;
+    width: auto;
+  }
+  @page {
+    size: A4;
+    margin: 14mm;
+  }
+  .print-card {
+    break-inside: avoid;
+  }
+  .print-desc {
+    display: -webkit-box;
+    -webkit-line-clamp: 5;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+  }
+  * {
+    -webkit-print-color-adjust: exact;
+    print-color-adjust: exact;
+  }
+}

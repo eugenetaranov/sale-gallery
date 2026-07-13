@@ -17,6 +17,7 @@ export type UIStrings = {
   linkCopied: string;
   noDescription: string;
   productSheet: string;
+  exportPdf: string;
 };
 
 const STRINGS: Record<Lang, UIStrings> = {
@@ -34,6 +35,7 @@ const STRINGS: Record<Lang, UIStrings> = {
     linkCopied: "¡Enlace copiado!",
     noDescription: "Sin descripción.",
     productSheet: "Ficha del producto",
+    exportPdf: "Descargar PDF",
   },
   EN: {
     headerTitle: "For sale",
@@ -49,6 +51,7 @@ const STRINGS: Record<Lang, UIStrings> = {
     linkCopied: "Link copied!",
     noDescription: "No description.",
     productSheet: "Product page",
+    exportPdf: "Download PDF",
   },
   UA: {
     headerTitle: "Продаж",
@@ -64,6 +67,7 @@ const STRINGS: Record<Lang, UIStrings> = {
     linkCopied: "Посилання скопійовано!",
     noDescription: "Без опису.",
     productSheet: "Сторінка товару",
+    exportPdf: "Завантажити PDF",
   },
   RU: {
     headerTitle: "Продажа",
@@ -79,6 +83,7 @@ const STRINGS: Record<Lang, UIStrings> = {
     linkCopied: "Ссылка скопирована!",
     noDescription: "Без описания.",
     productSheet: "Страница товара",
+    exportPdf: "Скачать PDF",
   },
 };
 

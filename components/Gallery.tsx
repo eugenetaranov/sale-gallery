@@ -6,6 +6,7 @@ import { t } from "@/lib/i18n";
 import Toolbar, { type SortKey } from "@/components/Toolbar";
 import ItemCard from "@/components/ItemCard";
 import ItemDetail from "@/components/ItemDetail";
+import PrintCatalog from "@/components/PrintCatalog";
 
 const SALE_STATUSES = ["Ready", "Listed"];
 
@@ -37,6 +38,21 @@ export default function Gallery({ items }: { items: Item[] }) {
 
   const kinds = useMemo(
     () => Array.from(new Set(items.map((i) => i.kind).filter(Boolean))).sort(),
+    [items]
+  );
+
+  // The PDF catalog always covers the whole sale list (ignoring the on-screen
+  // filters/search/sort), grouped by category then price for a stable order.
+  const saleItems = useMemo(
+    () =>
+      items
+        .filter((i) => SALE_STATUSES.includes(i.status))
+        .sort((a, b) => {
+          if (a.kind !== b.kind) return a.kind.localeCompare(b.kind);
+          const pa = a.targetPrice ?? Number.POSITIVE_INFINITY;
+          const pb = b.targetPrice ?? Number.POSITIVE_INFINITY;
+          return pa - pb;
+        }),
     [items]
   );
 
@@ -74,7 +90,8 @@ export default function Gallery({ items }: { items: Item[] }) {
   const s = t(lang);
 
   return (
-    <div className="min-h-screen">
+    <>
+    <div className="min-h-screen no-print">
       <header className="bg-brand text-white">
         <div className="mx-auto flex max-w-7xl items-center gap-3 px-4 py-3">
           <div className="flex h-7 w-7 items-center justify-center rounded bg-white/20 text-sm font-bold">
@@ -84,6 +101,12 @@ export default function Gallery({ items }: { items: Item[] }) {
           <span className="ml-1 rounded-full bg-white/20 px-2 py-0.5 text-xs">
             {filtered.length} {s.items}
           </span>
+          <button
+            onClick={() => window.print()}
+            className="ml-auto rounded-md bg-white/20 px-3 py-1.5 text-xs font-medium text-white transition hover:bg-white/30"
+          >
+            {s.exportPdf}
+          </button>
         </div>
       </header>
 
@@ -116,5 +139,8 @@ export default function Gallery({ items }: { items: Item[] }) {
         <ItemDetail item={active} lang={lang} onClose={() => setActive(null)} />
       )}
     </div>
+
+    <PrintCatalog items={saleItems} lang={lang} />
+    </>
   );
 }

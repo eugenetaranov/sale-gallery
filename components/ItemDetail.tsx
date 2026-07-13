@@ -1,8 +1,7 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import { LANGS, nameFor, type Item, type Lang } from "@/lib/airtable";
-// LANGS is still used by pickDescription() below for fallback ordering.
+import { nameFor, pickDescription, type Item, type Lang } from "@/lib/airtable";
 import { formatPrice } from "@/components/ItemCard";
 import ShareButton from "@/components/ShareButton";
 import { t, tCondition, tKind, tStatus } from "@/lib/i18n";
@@ -15,13 +14,6 @@ const CHANNELS: { key: keyof Item["links"]; label: string }[] = [
   { key: "telegram", label: "Telegram" },
   { key: "product", label: "" },
 ];
-
-// Show the selected language, falling back to any non-empty one.
-function pickDescription(item: Item, lang: Lang): string {
-  if (item.descriptions[lang]) return item.descriptions[lang];
-  for (const l of LANGS) if (item.descriptions[l]) return item.descriptions[l];
-  return "";
-}
 
 export default function ItemDetail({
   item,

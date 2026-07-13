@@ -180,3 +180,10 @@ export async function getItems(): Promise<Item[]> {
 export function nameFor(item: Item, lang: Lang): string {
   return item.names[lang] || item.names.ES || item.name;
 }
+
+/** Description for the chosen language, falling back to any non-empty one. */
+export function pickDescription(item: Item, lang: Lang): string {
+  if (item.descriptions[lang]) return item.descriptions[lang];
+  for (const l of LANGS) if (item.descriptions[l]) return item.descriptions[l];
+  return "";
+}
