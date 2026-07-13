@@ -85,3 +85,73 @@ const STRINGS: Record<Lang, UIStrings> = {
 export function t(lang: Lang): UIStrings {
   return STRINGS[lang] ?? STRINGS.ES;
 }
+
+// Translations for Airtable single-select values (Kind / Condition / Status).
+// Keys are the canonical English values stored in Airtable — filtering still
+// happens on the raw value, only the displayed label is localized. Unknown
+// values fall back to the raw string so new choices never break the UI.
+type Dict = Record<Lang, string>;
+
+const KINDS: Record<string, Dict> = {
+  Furniture: { ES: "Muebles", EN: "Furniture", UA: "Меблі", RU: "Мебель" },
+  Electronics: { ES: "Electrónica", EN: "Electronics", UA: "Електроніка", RU: "Электроника" },
+  "Home appliance": {
+    ES: "Electrodomésticos",
+    EN: "Home appliance",
+    UA: "Побутова техніка",
+    RU: "Бытовая техника",
+  },
+  Lighting: { ES: "Iluminación", EN: "Lighting", UA: "Освітлення", RU: "Освещение" },
+  "Kitchen/Camping": {
+    ES: "Cocina/Camping",
+    EN: "Kitchen/Camping",
+    UA: "Кухня/Кемпінг",
+    RU: "Кухня/Кемпинг",
+  },
+  "Computer/Peripherals": {
+    ES: "Ordenador/Periféricos",
+    EN: "Computer/Peripherals",
+    UA: "Комп'ютер/Периферія",
+    RU: "Компьютер/Периферия",
+  },
+  Tools: { ES: "Herramientas", EN: "Tools", UA: "Інструменти", RU: "Инструменты" },
+  "Rugs/Textiles": {
+    ES: "Alfombras/Textil",
+    EN: "Rugs/Textiles",
+    UA: "Килими/Текстиль",
+    RU: "Ковры/Текстиль",
+  },
+  Vehicle: { ES: "Vehículo", EN: "Vehicle", UA: "Транспорт", RU: "Транспорт" },
+  Other: { ES: "Otros", EN: "Other", UA: "Інше", RU: "Другое" },
+};
+
+const CONDITIONS: Record<string, Dict> = {
+  "New/sealed": {
+    ES: "Nuevo/precintado",
+    EN: "New/sealed",
+    UA: "Нове/запечатане",
+    RU: "Новое/запечатано",
+  },
+  "Like new": { ES: "Como nuevo", EN: "Like new", UA: "Як нове", RU: "Как новое" },
+  Good: { ES: "Bueno", EN: "Good", UA: "Добрий стан", RU: "Хорошее" },
+  Fair: { ES: "Aceptable", EN: "Fair", UA: "Задовільний", RU: "Удовлетворительное" },
+};
+
+const STATUSES: Record<string, Dict> = {
+  Draft: { ES: "Borrador", EN: "Draft", UA: "Чернетка", RU: "Черновик" },
+  Ready: { ES: "Listo", EN: "Ready", UA: "Готово", RU: "Готово" },
+  Listed: { ES: "Publicado", EN: "Listed", UA: "Опубліковано", RU: "Опубликовано" },
+  Reserved: { ES: "Reservado", EN: "Reserved", UA: "Зарезервовано", RU: "Зарезервировано" },
+  Sold: { ES: "Vendido", EN: "Sold", UA: "Продано", RU: "Продано" },
+  "Given away": { ES: "Regalado", EN: "Given away", UA: "Віддано", RU: "Отдано" },
+  Kept: { ES: "Conservado", EN: "Kept", UA: "Залишено", RU: "Оставлено" },
+};
+
+function translate(map: Record<string, Dict>, value: string, lang: Lang): string {
+  return map[value]?.[lang] ?? value;
+}
+
+export const tKind = (value: string, lang: Lang): string => translate(KINDS, value, lang);
+export const tCondition = (value: string, lang: Lang): string =>
+  translate(CONDITIONS, value, lang);
+export const tStatus = (value: string, lang: Lang): string => translate(STATUSES, value, lang);

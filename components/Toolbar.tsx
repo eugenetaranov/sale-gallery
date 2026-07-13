@@ -1,7 +1,7 @@
 "use client";
 
 import { LANGS, type Lang } from "@/lib/airtable";
-import { t } from "@/lib/i18n";
+import { t, tKind } from "@/lib/i18n";
 
 export type SortKey = "price-asc" | "price-desc" | "name";
 
@@ -96,7 +96,7 @@ export default function Toolbar({
                   : "bg-gray-100 text-gray-700 hover:bg-gray-200"
               }`}
             >
-              {kind}
+              {tKind(kind, lang)}
             </button>
           );
         })}

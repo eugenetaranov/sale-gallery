@@ -5,7 +5,7 @@ import { LANGS, nameFor, type Item, type Lang } from "@/lib/airtable";
 // LANGS is still used by pickDescription() below for fallback ordering.
 import { formatPrice } from "@/components/ItemCard";
 import ShareButton from "@/components/ShareButton";
-import { t } from "@/lib/i18n";
+import { t, tCondition, tKind, tStatus } from "@/lib/i18n";
 
 // Marketplace channels. Brand names stay literal; "product" is localized at render.
 const CHANNELS: { key: keyof Item["links"]; label: string }[] = [
@@ -125,17 +125,17 @@ export default function ItemDetail({
               <div className="mt-1 flex flex-wrap items-center gap-1.5">
                 {item.kind && (
                   <span className="rounded bg-gray-100 px-2 py-0.5 text-[11px] text-gray-600">
-                    {item.kind}
+                    {tKind(item.kind, lang)}
                   </span>
                 )}
                 {item.condition && (
                   <span className="rounded bg-blue-50 px-2 py-0.5 text-[11px] text-blue-700">
-                    {item.condition}
+                    {tCondition(item.condition, lang)}
                   </span>
                 )}
                 {item.status && (
                   <span className="rounded bg-green-50 px-2 py-0.5 text-[11px] text-green-700">
-                    {item.status}
+                    {tStatus(item.status, lang)}
                   </span>
                 )}
               </div>

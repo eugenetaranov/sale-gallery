@@ -1,6 +1,7 @@
 "use client";
 
 import { nameFor, type Item, type Lang } from "@/lib/airtable";
+import { tCondition, tKind } from "@/lib/i18n";
 import ShareButton from "@/components/ShareButton";
 
 export function formatPrice(v: number | null): string {
@@ -61,12 +62,12 @@ export default function ItemCard({
         <div className="flex flex-wrap items-center gap-1.5">
           {item.kind && (
             <span className="rounded bg-gray-100 px-2 py-0.5 text-[11px] text-gray-600">
-              {item.kind}
+              {tKind(item.kind, lang)}
             </span>
           )}
           {item.condition && (
             <span className="rounded bg-blue-50 px-2 py-0.5 text-[11px] text-blue-700">
-              {item.condition}
+              {tCondition(item.condition, lang)}
             </span>
           )}
         </div>
