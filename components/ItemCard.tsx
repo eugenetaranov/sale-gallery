@@ -33,19 +33,20 @@ export default function ItemCard({
       }}
       className="group flex cursor-pointer flex-col overflow-hidden rounded-lg border border-gray-200 bg-white text-left shadow-sm transition hover:shadow-md focus:outline-none focus-visible:ring-2 focus-visible:ring-brand"
     >
-      <div className="relative aspect-square w-full bg-gray-100">
+      <div className="relative aspect-square w-full overflow-hidden bg-gray-100">
         {cover ? (
-          // Tall photos are scaled to fit (contain) so they aren't chopped into
-          // a slice; normal photos fill the square (cover).
+          // Image is absolutely positioned so its natural height can't stretch
+          // the square box. Tall photos are scaled to fit (contain) so they
+          // aren't chopped into a slice; normal photos fill the square (cover).
           // eslint-disable-next-line @next/next/no-img-element
           <img
             src={cover.large}
             alt={title}
             loading="lazy"
-            className={`h-full w-full ${isTallPhoto(cover) ? "object-contain" : "object-cover"}`}
+            className={`absolute inset-0 h-full w-full ${isTallPhoto(cover) ? "object-contain" : "object-cover"}`}
           />
         ) : (
-          <div className="flex h-full w-full items-center justify-center text-xs text-gray-400">
+          <div className="absolute inset-0 flex items-center justify-center text-xs text-gray-400">
             sin foto
           </div>
         )}
