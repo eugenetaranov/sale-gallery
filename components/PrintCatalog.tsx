@@ -1,4 +1,4 @@
-import { nameFor, pickDescription, type Item, type Lang } from "@/lib/airtable";
+import { isTallPhoto, nameFor, pickDescription, type Item, type Lang } from "@/lib/airtable";
 import { formatPrice } from "@/components/ItemCard";
 import { t, tCondition, tKind } from "@/lib/i18n";
 
@@ -49,7 +49,7 @@ export default function PrintCatalog({ items, lang }: { items: Item[]; lang: Lan
                       <img
                         src={cover.large}
                         alt={title}
-                        className="h-full w-full object-cover"
+                        className={`h-full w-full ${isTallPhoto(cover) ? "object-contain" : "object-cover"}`}
                       />
                     ) : (
                       <div className="flex h-full w-full items-center justify-center text-[10px] text-gray-400">

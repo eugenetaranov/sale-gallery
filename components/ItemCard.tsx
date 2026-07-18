@@ -1,6 +1,6 @@
 "use client";
 
-import { nameFor, type Item, type Lang } from "@/lib/airtable";
+import { isTallPhoto, nameFor, type Item, type Lang } from "@/lib/airtable";
 import { tCondition, tKind } from "@/lib/i18n";
 import ShareButton from "@/components/ShareButton";
 
@@ -35,12 +35,14 @@ export default function ItemCard({
     >
       <div className="relative aspect-square w-full bg-gray-100">
         {cover ? (
+          // Tall photos are scaled to fit (contain) so they aren't chopped into
+          // a slice; normal photos fill the square (cover).
           // eslint-disable-next-line @next/next/no-img-element
           <img
             src={cover.large}
             alt={title}
             loading="lazy"
-            className="h-full w-full object-cover"
+            className={`h-full w-full ${isTallPhoto(cover) ? "object-contain" : "object-cover"}`}
           />
         ) : (
           <div className="flex h-full w-full items-center justify-center text-xs text-gray-400">

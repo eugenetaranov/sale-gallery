@@ -5,7 +5,7 @@
 export type Lang = "ES" | "EN" | "UA" | "RU";
 export const LANGS: Lang[] = ["ES", "EN", "UA", "RU"];
 
-export type Photo = { small: string; large: string; full: string };
+export type Photo = { small: string; large: string; full: string; width: number; height: number };
 
 export type Item = {
   id: string;
@@ -57,6 +57,8 @@ const REQUEST_FIELDS = Object.values(F);
 type AirtableAttachment = {
   url: string;
   filename?: string;
+  width?: number;
+  height?: number;
   thumbnails?: {
     small?: { url: string };
     large?: { url: string };
@@ -81,7 +83,7 @@ function normalizePhotos(v: unknown): Photo[] {
   return (v as AirtableAttachment[]).map((a) => {
     const small = a.thumbnails?.small?.url ?? a.url;
     const large = a.thumbnails?.large?.url ?? a.url;
-    return { small, large, full: a.url };
+    return { small, large, full: a.url, width: a.width ?? 0, height: a.height ?? 0 };
   });
 }
 
@@ -179,6 +181,16 @@ export async function getItems(): Promise<Item[]> {
 /** Display title for the chosen language, falling back to the ES/primary name. */
 export function nameFor(item: Item, lang: Lang): string {
   return item.names[lang] || item.names.ES || item.name;
+}
+
+// A photo taller than this ratio (height / width) would be heavily cropped by a
+// square cover box, chopping the item into a slice. Such photos are scaled to
+// fit (object-contain) instead, so the whole item stays visible — just smaller.
+const TALL_RATIO = 1.5;
+
+/** True when the photo is tall enough that cropping to a square would cut it. */
+export function isTallPhoto(p: Photo | undefined): boolean {
+  return !!p && p.width > 0 && p.height / p.width > TALL_RATIO;
 }
 
 /** Description for the chosen language, falling back to any non-empty one. */
