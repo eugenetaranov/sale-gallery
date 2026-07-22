@@ -26,28 +26,38 @@ function Row({
 
   return (
     <li className={`flex items-center gap-3 py-3 ${dim ? "opacity-60" : ""}`}>
-      <div className="h-14 w-14 flex-shrink-0 overflow-hidden rounded-md bg-gray-100">
-        {cover ? (
-          // eslint-disable-next-line @next/next/no-img-element
-          <img src={cover.small} alt="" className="h-full w-full object-cover" />
-        ) : null}
-      </div>
-      <div className="min-w-0 flex-1">
-        <p className="truncate text-sm font-medium text-gray-900">{nameFor(item, lang)}</p>
-        {dim ? (
-          <span className="mt-0.5 inline-block rounded bg-gray-100 px-1.5 py-0.5 text-[11px] text-gray-500">
-            {s.noLongerAvailable} · {tStatus(item.status, lang)}
-          </span>
-        ) : (
-          <span
-            className={`text-sm font-semibold ${
-              item.targetPrice === 0 ? "text-emerald-600" : "text-gray-700"
-            }`}
-          >
-            {formatPrice(item.targetPrice, lang)}
-          </span>
-        )}
-      </div>
+      {/* Opens the item in a new tab via the same deep link used elsewhere. */}
+      <a
+        href={`/?item=${item.id}`}
+        target="_blank"
+        rel="noopener noreferrer"
+        className="group flex min-w-0 flex-1 items-center gap-3"
+      >
+        <div className="h-14 w-14 flex-shrink-0 overflow-hidden rounded-md bg-gray-100">
+          {cover ? (
+            // eslint-disable-next-line @next/next/no-img-element
+            <img src={cover.small} alt="" className="h-full w-full object-cover" />
+          ) : null}
+        </div>
+        <div className="min-w-0 flex-1">
+          <p className="truncate text-sm font-medium text-gray-900 group-hover:text-brand group-hover:underline">
+            {nameFor(item, lang)}
+          </p>
+          {dim ? (
+            <span className="mt-0.5 inline-block rounded bg-gray-100 px-1.5 py-0.5 text-[11px] text-gray-500">
+              {s.noLongerAvailable} · {tStatus(item.status, lang)}
+            </span>
+          ) : (
+            <span
+              className={`text-sm font-semibold ${
+                item.targetPrice === 0 ? "text-emerald-600" : "text-gray-700"
+              }`}
+            >
+              {formatPrice(item.targetPrice, lang)}
+            </span>
+          )}
+        </div>
+      </a>
       {editable && (
         <button
           onClick={() => remove(item.id)}
