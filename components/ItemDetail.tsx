@@ -4,6 +4,7 @@ import { useEffect, useState } from "react";
 import { nameFor, pickDescription, type Item, type Lang } from "@/lib/airtable";
 import { formatPrice } from "@/components/ItemCard";
 import ShareButton from "@/components/ShareButton";
+import BucketToggle from "@/components/BucketToggle";
 import { t, tCondition, tKind, tStatus } from "@/lib/i18n";
 
 // Marketplace channels. Brand names stay literal; "product" is localized at render.
@@ -154,6 +155,7 @@ export default function ItemDetail({
 
           {/* Share + marketplace links */}
           <div className="flex flex-wrap gap-2">
+            <BucketToggle id={item.id} lang={lang} variant="button" />
             <ShareButton id={item.id} lang={lang} variant="button" />
             {CHANNELS.filter((c) => item.links[c.key]).map((c) => (
               <a

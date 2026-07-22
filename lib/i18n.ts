@@ -19,6 +19,18 @@ export type UIStrings = {
   productSheet: string;
   exportPdf: string;
   free: string;
+  basket: string;
+  basketTitle: string;
+  addToBasket: string;
+  inBasket: string;
+  basketEmpty: string;
+  total: string;
+  remove: string;
+  clearBasket: string;
+  viewBasket: string;
+  basketShareHint: string;
+  noLongerAvailable: string;
+  someUnavailable: string;
 };
 
 const STRINGS: Record<Lang, UIStrings> = {
@@ -38,6 +50,18 @@ const STRINGS: Record<Lang, UIStrings> = {
     productSheet: "Ficha del producto",
     exportPdf: "Descargar PDF",
     free: "Gratis",
+    basket: "Cesta",
+    basketTitle: "Mi cesta",
+    addToBasket: "Añadir a la cesta",
+    inBasket: "En la cesta",
+    basketEmpty: "Tu cesta está vacía.",
+    total: "Total",
+    remove: "Quitar",
+    clearBasket: "Vaciar",
+    viewBasket: "Ver cesta completa",
+    basketShareHint: "Comparte este enlace para decirnos qué artículos te interesan.",
+    noLongerAvailable: "Ya no disponible",
+    someUnavailable: "artículo(s) ya no disponible(s)",
   },
   EN: {
     headerTitle: "For sale",
@@ -55,6 +79,18 @@ const STRINGS: Record<Lang, UIStrings> = {
     productSheet: "Product page",
     exportPdf: "Download PDF",
     free: "Free",
+    basket: "Basket",
+    basketTitle: "My basket",
+    addToBasket: "Add to basket",
+    inBasket: "In basket",
+    basketEmpty: "Your basket is empty.",
+    total: "Total",
+    remove: "Remove",
+    clearBasket: "Clear",
+    viewBasket: "View full basket",
+    basketShareHint: "Share this link to tell us which items you're interested in.",
+    noLongerAvailable: "No longer available",
+    someUnavailable: "item(s) no longer available",
   },
   UA: {
     headerTitle: "Продаж",
@@ -72,6 +108,18 @@ const STRINGS: Record<Lang, UIStrings> = {
     productSheet: "Сторінка товару",
     exportPdf: "Завантажити PDF",
     free: "Безкоштовно",
+    basket: "Кошик",
+    basketTitle: "Мій кошик",
+    addToBasket: "Додати до кошика",
+    inBasket: "У кошику",
+    basketEmpty: "Ваш кошик порожній.",
+    total: "Разом",
+    remove: "Прибрати",
+    clearBasket: "Очистити",
+    viewBasket: "Переглянути кошик",
+    basketShareHint: "Поділіться цим посиланням, щоб повідомити, які товари вас цікавлять.",
+    noLongerAvailable: "Більше недоступно",
+    someUnavailable: "товар(и) більше недоступні",
   },
   RU: {
     headerTitle: "Продажа",
@@ -89,6 +137,18 @@ const STRINGS: Record<Lang, UIStrings> = {
     productSheet: "Страница товара",
     exportPdf: "Скачать PDF",
     free: "Бесплатно",
+    basket: "Корзина",
+    basketTitle: "Моя корзина",
+    addToBasket: "Добавить в корзину",
+    inBasket: "В корзине",
+    basketEmpty: "Ваша корзина пуста.",
+    total: "Итого",
+    remove: "Убрать",
+    clearBasket: "Очистить",
+    viewBasket: "Открыть корзину",
+    basketShareHint: "Поделитесь этой ссылкой, чтобы сообщить, какие товары вас интересуют.",
+    noLongerAvailable: "Больше недоступно",
+    someUnavailable: "товар(ы) больше недоступны",
   },
 };
 

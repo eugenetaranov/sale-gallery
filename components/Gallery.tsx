@@ -8,6 +8,8 @@ import Toolbar, { type SortKey } from "@/components/Toolbar";
 import ItemCard from "@/components/ItemCard";
 import ItemDetail from "@/components/ItemDetail";
 import PrintCatalog from "@/components/PrintCatalog";
+import BucketDrawer from "@/components/BucketDrawer";
+import { useBucket } from "@/lib/bucket";
 
 const SALE_STATUSES = ["Ready", "Listed"];
 
@@ -23,6 +25,8 @@ export default function Gallery({ items }: { items: Item[] }) {
   const [sort, setSort] = useState<SortKey>("price-asc");
   const [lang, setLang] = useState<Lang>("ES");
   const [active, setActive] = useState<Item | null>(null);
+  const [bucketOpen, setBucketOpen] = useState(false);
+  const bucket = useBucket();
 
   // The active tab IS the URL path: "/" = For sale, "/free" = donated. This
   // makes each tab a real, shareable link. Switching tabs pushes the path via
@@ -135,12 +139,30 @@ export default function Gallery({ items }: { items: Item[] }) {
           <span className="ml-1 rounded-full bg-white/20 px-2 py-0.5 text-xs">
             {filtered.length} {s.items}
           </span>
-          <button
-            onClick={() => window.print()}
-            className="ml-auto rounded-md bg-white/20 px-3 py-1.5 text-xs font-medium text-white transition hover:bg-white/30"
-          >
-            {s.exportPdf}
-          </button>
+          <div className="ml-auto flex items-center gap-2">
+            <button
+              onClick={() => setBucketOpen(true)}
+              className="relative flex items-center gap-1.5 rounded-md bg-white/20 px-3 py-1.5 text-xs font-medium text-white transition hover:bg-white/30"
+            >
+              <svg viewBox="0 0 24 24" className="h-4 w-4" fill="none" stroke="currentColor" strokeWidth={2} strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
+                <path d="M6 2 3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4Z" />
+                <path d="M3 6h18" />
+                <path d="M16 10a4 4 0 0 1-8 0" />
+              </svg>
+              {s.basket}
+              {bucket.count > 0 && (
+                <span className="rounded-full bg-white px-1.5 text-[11px] font-semibold text-brand">
+                  {bucket.count}
+                </span>
+              )}
+            </button>
+            <button
+              onClick={() => window.print()}
+              className="rounded-md bg-white/20 px-3 py-1.5 text-xs font-medium text-white transition hover:bg-white/30"
+            >
+              {s.exportPdf}
+            </button>
+          </div>
         </div>
       </header>
 
@@ -212,6 +234,13 @@ export default function Gallery({ items }: { items: Item[] }) {
       {active && (
         <ItemDetail item={active} lang={lang} onClose={() => setActive(null)} />
       )}
+
+      <BucketDrawer
+        items={items}
+        lang={lang}
+        open={bucketOpen}
+        onClose={() => setBucketOpen(false)}
+      />
     </div>
 
     <PrintCatalog items={saleItems} lang={lang} />

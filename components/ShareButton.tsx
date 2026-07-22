@@ -11,7 +11,7 @@ export function buildShareUrl(id: string): string {
   return `${origin}${pathname}?item=${id}`;
 }
 
-async function copyText(text: string) {
+export async function copyText(text: string) {
   try {
     await navigator.clipboard.writeText(text);
     return true;

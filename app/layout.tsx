@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import "./globals.css";
+import { BucketProvider } from "@/lib/bucket";
 
 export const metadata: Metadata = {
   title: "En venta",
@@ -13,7 +14,9 @@ export default function RootLayout({
 }) {
   return (
     <html lang="es">
-      <body className="min-h-screen font-sans antialiased">{children}</body>
+      <body className="min-h-screen font-sans antialiased">
+        <BucketProvider>{children}</BucketProvider>
+      </body>
     </html>
   );
 }
