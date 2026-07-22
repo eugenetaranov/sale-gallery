@@ -116,6 +116,11 @@ export default function ItemDetail({
             <div>
               <h2 className="text-lg font-semibold text-gray-900">{title}</h2>
               <div className="mt-1 flex flex-wrap items-center gap-1.5">
+                {item.quantity > 1 && (
+                  <span className="rounded bg-amber-100 px-2 py-0.5 text-[11px] font-semibold text-amber-800">
+                    ×{item.quantity} {s.units}
+                  </span>
+                )}
                 {item.kind && (
                   <span className="rounded bg-gray-100 px-2 py-0.5 text-[11px] text-gray-600">
                     {tKind(item.kind, lang)}

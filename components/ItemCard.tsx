@@ -59,6 +59,11 @@ export default function ItemCard({
             1/{item.photos.length}
           </span>
         )}
+        {item.quantity > 1 && (
+          <span className="absolute bottom-2 left-2 rounded-full bg-amber-500 px-2 py-0.5 text-[10px] font-bold text-white shadow-sm">
+            ×{item.quantity}
+          </span>
+        )}
         <BasketToggle id={item.id} lang={lang} variant="icon" className="absolute left-2 top-2" />
         <ShareButton id={item.id} lang={lang} variant="icon" className="absolute right-2 top-2" />
       </div>

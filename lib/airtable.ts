@@ -14,6 +14,7 @@ export type Item = {
   kind: string;
   status: string;
   condition: string;
+  quantity: number; // number of identical units available (1 = single item)
   targetPrice: number | null;
   photos: Photo[];
   descriptions: Record<Lang, string>;
@@ -38,6 +39,7 @@ const F = {
   status: "fldzxbJZltMhThPbB",
   photos: "fld3JH9SvJCNlUicj",
   condition: "fldFVsUxZrUoHEqCF",
+  quantity: "fldfUJb5eJc7TXpMw",
   target: "fldooSbJ6VWezwYJw",
   descES: "fldOx3aJNhK58VLIn",
   descEN: "fld2U6RpYnMmuAyVX",
@@ -98,6 +100,7 @@ function undefIfEmpty(v: unknown): string | undefined {
 function toItem(rec: AirtableRecord): Item {
   const f = rec.fields;
   const rawTarget = f[F.target];
+  const rawQty = f[F.quantity];
   const esName = str(f[F.name]);
   return {
     id: rec.id,
@@ -110,6 +113,7 @@ function toItem(rec: AirtableRecord): Item {
     kind: str(f[F.kind]),
     status: str(f[F.status]),
     condition: str(f[F.condition]),
+    quantity: typeof rawQty === "number" && rawQty > 0 ? rawQty : 1,
     targetPrice: typeof rawTarget === "number" ? rawTarget : null,
     photos: normalizePhotos(f[F.photos]),
     descriptions: {

@@ -31,6 +31,7 @@ export type UIStrings = {
   basketShareHint: string;
   noLongerAvailable: string;
   someUnavailable: string;
+  units: string;
 };
 
 const STRINGS: Record<Lang, UIStrings> = {
@@ -62,6 +63,7 @@ const STRINGS: Record<Lang, UIStrings> = {
     basketShareHint: "Comparte este enlace para decirnos qué artículos te interesan.",
     noLongerAvailable: "Ya no disponible",
     someUnavailable: "artículo(s) ya no disponible(s)",
+    units: "unidades",
   },
   EN: {
     headerTitle: "For sale",
@@ -91,6 +93,7 @@ const STRINGS: Record<Lang, UIStrings> = {
     basketShareHint: "Share this link to tell us which items you're interested in.",
     noLongerAvailable: "No longer available",
     someUnavailable: "item(s) no longer available",
+    units: "units",
   },
   UA: {
     headerTitle: "Продаж",
@@ -120,6 +123,7 @@ const STRINGS: Record<Lang, UIStrings> = {
     basketShareHint: "Поділіться цим посиланням, щоб повідомити, які товари вас цікавлять.",
     noLongerAvailable: "Більше недоступно",
     someUnavailable: "товар(и) більше недоступні",
+    units: "шт.",
   },
 };
 
