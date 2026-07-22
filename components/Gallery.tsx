@@ -130,8 +130,8 @@ export default function Gallery({ items }: { items: Item[] }) {
 
   return (
     <>
-    <div className="min-h-screen no-print">
-      <header className={`text-white ${isFreeMode ? "bg-emerald-600" : "bg-brand"}`}>
+    <div className={`min-h-screen no-print ${isFreeMode ? "theme-free" : ""}`}>
+      <header className="bg-brand text-white">
         <div className="mx-auto flex max-w-7xl items-center gap-3 px-4 py-3">
           <div className="flex h-7 w-7 items-center justify-center rounded bg-white/20 text-sm font-bold">
             €
@@ -163,7 +163,7 @@ export default function Gallery({ items }: { items: Item[] }) {
               {s.basket}
               {/* Always shown (0 by default) so the button width is stable and
                   the basket is noticeable from the start. */}
-              <span className={`min-w-[1.25rem] rounded-full bg-white px-1.5 text-center text-[11px] font-semibold ${isFreeMode ? "text-emerald-600" : "text-brand"}`}>
+              <span className="min-w-[1.25rem] rounded-full bg-white px-1.5 text-center text-[11px] font-semibold text-brand">
                 {basket.count}
               </span>
             </button>
@@ -189,19 +189,14 @@ export default function Gallery({ items }: { items: Item[] }) {
               { key: "free", label: s.free, count: freeCount },
             ] as const).map(({ key, label, count }) => {
               const on = activeTab === key;
-              const isFreeTab = key === "free";
               return (
                 <button
                   key={key}
                   role="tab"
                   aria-selected={on}
                   onClick={() => selectTab(key)}
-                  className={`flex items-center gap-2 rounded-md px-4 py-1.5 text-sm font-medium transition ${
-                    on
-                      ? isFreeTab
-                        ? "bg-emerald-600 text-white"
-                        : "bg-brand text-white"
-                      : "text-gray-600 hover:bg-gray-50"
+                  className={`flex items-center gap-2 rounded-md px-4 py-1.5 text-sm font-medium transition focus:outline-none focus-visible:ring-2 focus-visible:ring-brand focus-visible:ring-offset-1 ${
+                    on ? "bg-brand text-white" : "text-gray-600 hover:bg-gray-50"
                   }`}
                 >
                   {label}

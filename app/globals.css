@@ -2,6 +2,16 @@
 @tailwind components;
 @tailwind utilities;
 
+:root {
+  /* Accent color as R G B channels (consumed by the `brand` Tailwind color).
+     Red by default; the giveaway view adds .theme-free to swap in green. */
+  --accent-rgb: 229 72 77; /* #e5484d */
+}
+
+.theme-free {
+  --accent-rgb: 5 150 105; /* emerald-600 #059669 */
+}
+
 html,
 body {
   padding: 0;

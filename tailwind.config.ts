@@ -8,7 +8,10 @@ const config: Config = {
   theme: {
     extend: {
       colors: {
-        brand: "#e5484d",
+        // Themeable accent: the R G B channels live in a CSS variable so every
+        // `*-brand` utility (incl. opacity modifiers like bg-brand/90) re-themes
+        // at once. Defaults to red; the Gratis view swaps in green (.theme-free).
+        brand: "rgb(var(--accent-rgb) / <alpha-value>)",
       },
     },
   },

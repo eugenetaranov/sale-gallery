@@ -72,7 +72,7 @@ export default function Toolbar({
             <button
               key={l}
               onClick={() => onLang(l)}
-              className={`h-9 w-9 text-xs font-medium ${
+              className={`h-9 w-9 text-xs font-medium focus:outline-none focus-visible:ring-2 focus-visible:ring-inset focus-visible:ring-brand ${
                 lang === l ? "bg-brand text-white" : "bg-white text-gray-600 hover:bg-gray-50"
               }`}
               title={`${s.language}: ${l}`}
@@ -90,7 +90,7 @@ export default function Toolbar({
             <button
               key={kind}
               onClick={() => onToggleKind(kind)}
-              className={`rounded-full px-3 py-1 text-xs font-medium transition ${
+              className={`rounded-full px-3 py-1 text-xs font-medium transition focus:outline-none focus-visible:ring-2 focus-visible:ring-brand focus-visible:ring-offset-1 ${
                 on
                   ? "bg-brand text-white"
                   : "bg-gray-100 text-gray-700 hover:bg-gray-200"
