@@ -124,11 +124,14 @@ export default function Gallery({ items }: { items: Item[] }) {
     );
 
   const s = t(lang);
+  // Giveaway tab gets a green accent (matches the emerald "Gratis" pill); the
+  // paid tab keeps the red brand accent.
+  const isFreeMode = activeTab === "free";
 
   return (
     <>
     <div className="min-h-screen no-print">
-      <header className="bg-brand text-white">
+      <header className={`text-white ${isFreeMode ? "bg-emerald-600" : "bg-brand"}`}>
         <div className="mx-auto flex max-w-7xl items-center gap-3 px-4 py-3">
           <div className="flex h-7 w-7 items-center justify-center rounded bg-white/20 text-sm font-bold">
             €
@@ -160,7 +163,7 @@ export default function Gallery({ items }: { items: Item[] }) {
               {s.basket}
               {/* Always shown (0 by default) so the button width is stable and
                   the basket is noticeable from the start. */}
-              <span className="min-w-[1.25rem] rounded-full bg-white px-1.5 text-center text-[11px] font-semibold text-brand">
+              <span className={`min-w-[1.25rem] rounded-full bg-white px-1.5 text-center text-[11px] font-semibold ${isFreeMode ? "text-emerald-600" : "text-brand"}`}>
                 {basket.count}
               </span>
             </button>
