@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect, useMemo, useState } from "react";
+import { usePathname } from "next/navigation";
 import { nameFor, type Item, type Lang } from "@/lib/airtable";
 import { t } from "@/lib/i18n";
 import Toolbar, { type SortKey } from "@/components/Toolbar";
@@ -22,7 +23,18 @@ export default function Gallery({ items }: { items: Item[] }) {
   const [sort, setSort] = useState<SortKey>("price-asc");
   const [lang, setLang] = useState<Lang>("ES");
   const [active, setActive] = useState<Item | null>(null);
-  const [tab, setTab] = useState<Tab>("sale");
+
+  // The active tab IS the URL path: "/" = For sale, "/free" = donated. This
+  // makes each tab a real, shareable link. Switching tabs pushes the path via
+  // the native History API, which Next syncs back into usePathname (so Back /
+  // Forward and direct loads all work) without a full navigation.
+  const pathname = usePathname();
+  const activeTab: Tab = pathname === "/free" ? "free" : "sale";
+  const selectTab = (next: Tab) => {
+    const url = new URL(window.location.href);
+    url.pathname = next === "free" ? "/free" : "/";
+    window.history.pushState(null, "", url.toString());
+  };
 
   // Open the item referenced by ?item=recId on first load (deep link / shared link).
   useEffect(() => {
@@ -55,9 +67,9 @@ export default function Gallery({ items }: { items: Item[] }) {
   );
   const freeCount = useMemo(() => listable.filter(isFree).length, [listable]);
   const saleCount = listable.length - freeCount;
-  // Only surface the Free tab once at least one giveaway exists.
-  const showTabs = freeCount > 0;
-  const activeTab: Tab = showTabs ? tab : "sale";
+  // Surface the tabs once a giveaway exists, or whenever someone lands on the
+  // shared /free link directly (so they always have a way back to For sale).
+  const showTabs = freeCount > 0 || activeTab === "free";
 
   // The PDF catalog always covers the whole sale list (ignoring the on-screen
   // filters/search/sort), grouped by category then price for a stable order.
@@ -150,7 +162,7 @@ export default function Gallery({ items }: { items: Item[] }) {
                   key={key}
                   role="tab"
                   aria-selected={on}
-                  onClick={() => setTab(key)}
+                  onClick={() => selectTab(key)}
                   className={`flex items-center gap-2 rounded-md px-4 py-1.5 text-sm font-medium transition ${
                     on
                       ? isFreeTab
