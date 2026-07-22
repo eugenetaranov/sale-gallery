@@ -2,8 +2,8 @@
 // Photo (attachment) URLs from Airtable are signed and expire ~2h, so callers
 // must refetch periodically (the page sets `revalidate = 600`).
 
-export type Lang = "ES" | "EN" | "UA" | "RU";
-export const LANGS: Lang[] = ["ES", "EN", "UA", "RU"];
+export type Lang = "ES" | "EN" | "UA";
+export const LANGS: Lang[] = ["ES", "EN", "UA"];
 
 export type Photo = { small: string; large: string; full: string; width: number; height: number };
 
@@ -34,7 +34,6 @@ const F = {
   name: "fldkEiBgfp01GTROH",
   nameEN: "fld1GEOu1GVfKc57S",
   nameUK: "fldziLsekjTvseWOa",
-  nameRU: "fldRxriZ3uXph5RZ5",
   kind: "fldhi7tp2bOsC7O3W",
   status: "fldzxbJZltMhThPbB",
   photos: "fld3JH9SvJCNlUicj",
@@ -43,7 +42,6 @@ const F = {
   descES: "fldOx3aJNhK58VLIn",
   descEN: "fld2U6RpYnMmuAyVX",
   descUK: "fldzoPbvMZQxg4Wno",
-  descRU: "fldZqO2BT92cQvwGF",
   marketplace: "fld6IiH7p5CZrnTiX",
   productUrl: "fldRdmtyZwcSvZBwf",
   wallapop: "fldO358VelVFttUpl",
@@ -108,7 +106,6 @@ function toItem(rec: AirtableRecord): Item {
       ES: esName,
       EN: str(f[F.nameEN]),
       UA: str(f[F.nameUK]), // Airtable field is "Name (UK)"; displayed as UA
-      RU: str(f[F.nameRU]),
     },
     kind: str(f[F.kind]),
     status: str(f[F.status]),
@@ -119,7 +116,6 @@ function toItem(rec: AirtableRecord): Item {
       ES: str(f[F.descES]),
       EN: str(f[F.descEN]),
       UA: str(f[F.descUK]), // Airtable field is "Description (UK)"; displayed as UA
-      RU: str(f[F.descRU]),
     },
     links: {
       product: undefIfEmpty(f[F.productUrl]),

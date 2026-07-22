@@ -121,35 +121,6 @@ const STRINGS: Record<Lang, UIStrings> = {
     noLongerAvailable: "Більше недоступно",
     someUnavailable: "товар(и) більше недоступні",
   },
-  RU: {
-    headerTitle: "Продажа",
-    items: "товаров",
-    searchPlaceholder: "Поиск по названию…",
-    sortPriceAsc: "Цена ↑",
-    sortPriceDesc: "Цена ↓",
-    sortName: "Название А–Я",
-    clear: "очистить",
-    noResults: "Нет товаров по этому фильтру.",
-    language: "Язык",
-    copyLink: "Копировать ссылку",
-    linkCopied: "Ссылка скопирована!",
-    noDescription: "Без описания.",
-    productSheet: "Страница товара",
-    exportPdf: "Скачать PDF",
-    free: "Бесплатно",
-    basket: "Корзина",
-    basketTitle: "Моя корзина",
-    addToBasket: "Добавить в корзину",
-    inBasket: "В корзине",
-    basketEmpty: "Ваша корзина пуста.",
-    total: "Итого",
-    remove: "Убрать",
-    clearBasket: "Очистить",
-    viewBasket: "Открыть корзину",
-    basketShareHint: "Поделитесь этой ссылкой, чтобы сообщить, какие товары вас интересуют.",
-    noLongerAvailable: "Больше недоступно",
-    someUnavailable: "товар(ы) больше недоступны",
-  },
 };
 
 export function t(lang: Lang): UIStrings {
@@ -163,36 +134,32 @@ export function t(lang: Lang): UIStrings {
 type Dict = Record<Lang, string>;
 
 const KINDS: Record<string, Dict> = {
-  Furniture: { ES: "Muebles", EN: "Furniture", UA: "Меблі", RU: "Мебель" },
-  Electronics: { ES: "Electrónica", EN: "Electronics", UA: "Електроніка", RU: "Электроника" },
+  Furniture: { ES: "Muebles", EN: "Furniture", UA: "Меблі" },
+  Electronics: { ES: "Electrónica", EN: "Electronics", UA: "Електроніка" },
   "Home appliance": {
     ES: "Electrodomésticos",
     EN: "Home appliance",
     UA: "Побутова техніка",
-    RU: "Бытовая техника",
   },
-  Lighting: { ES: "Iluminación", EN: "Lighting", UA: "Освітлення", RU: "Освещение" },
+  Lighting: { ES: "Iluminación", EN: "Lighting", UA: "Освітлення" },
   "Kitchen/Camping": {
     ES: "Cocina/Camping",
     EN: "Kitchen/Camping",
     UA: "Кухня/Кемпінг",
-    RU: "Кухня/Кемпинг",
   },
   "Computer/Peripherals": {
     ES: "Ordenador/Periféricos",
     EN: "Computer/Peripherals",
     UA: "Комп'ютер/Периферія",
-    RU: "Компьютер/Периферия",
   },
-  Tools: { ES: "Herramientas", EN: "Tools", UA: "Інструменти", RU: "Инструменты" },
+  Tools: { ES: "Herramientas", EN: "Tools", UA: "Інструменти" },
   "Rugs/Textiles": {
     ES: "Alfombras/Textil",
     EN: "Rugs/Textiles",
     UA: "Килими/Текстиль",
-    RU: "Ковры/Текстиль",
   },
-  Vehicle: { ES: "Vehículo", EN: "Vehicle", UA: "Транспорт", RU: "Транспорт" },
-  Other: { ES: "Otros", EN: "Other", UA: "Інше", RU: "Другое" },
+  Vehicle: { ES: "Vehículo", EN: "Vehicle", UA: "Транспорт" },
+  Other: { ES: "Otros", EN: "Other", UA: "Інше" },
 };
 
 const CONDITIONS: Record<string, Dict> = {
@@ -200,21 +167,20 @@ const CONDITIONS: Record<string, Dict> = {
     ES: "Nuevo/precintado",
     EN: "New/sealed",
     UA: "Нове/запечатане",
-    RU: "Новое/запечатано",
   },
-  "Like new": { ES: "Como nuevo", EN: "Like new", UA: "Як нове", RU: "Как новое" },
-  Good: { ES: "Bueno", EN: "Good", UA: "Добрий стан", RU: "Хорошее" },
-  Fair: { ES: "Aceptable", EN: "Fair", UA: "Задовільний", RU: "Удовлетворительное" },
+  "Like new": { ES: "Como nuevo", EN: "Like new", UA: "Як нове" },
+  Good: { ES: "Bueno", EN: "Good", UA: "Добрий стан" },
+  Fair: { ES: "Aceptable", EN: "Fair", UA: "Задовільний" },
 };
 
 const STATUSES: Record<string, Dict> = {
-  Draft: { ES: "Borrador", EN: "Draft", UA: "Чернетка", RU: "Черновик" },
-  Ready: { ES: "Listo", EN: "Ready", UA: "Готово", RU: "Готово" },
-  Listed: { ES: "Publicado", EN: "Listed", UA: "Опубліковано", RU: "Опубликовано" },
-  Reserved: { ES: "Reservado", EN: "Reserved", UA: "Зарезервовано", RU: "Зарезервировано" },
-  Sold: { ES: "Vendido", EN: "Sold", UA: "Продано", RU: "Продано" },
-  "Given away": { ES: "Regalado", EN: "Given away", UA: "Віддано", RU: "Отдано" },
-  Kept: { ES: "Conservado", EN: "Kept", UA: "Залишено", RU: "Оставлено" },
+  Draft: { ES: "Borrador", EN: "Draft", UA: "Чернетка" },
+  Ready: { ES: "Listo", EN: "Ready", UA: "Готово" },
+  Listed: { ES: "Publicado", EN: "Listed", UA: "Опубліковано" },
+  Reserved: { ES: "Reservado", EN: "Reserved", UA: "Зарезервовано" },
+  Sold: { ES: "Vendido", EN: "Sold", UA: "Продано" },
+  "Given away": { ES: "Regalado", EN: "Given away", UA: "Віддано" },
+  Kept: { ES: "Conservado", EN: "Kept", UA: "Залишено" },
 };
 
 function translate(map: Record<string, Dict>, value: string, lang: Lang): string {
