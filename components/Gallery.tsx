@@ -150,11 +150,11 @@ export default function Gallery({ items }: { items: Item[] }) {
                 <path d="M16 10a4 4 0 0 1-8 0" />
               </svg>
               {s.basket}
-              {basket.count > 0 && (
-                <span className="rounded-full bg-white px-1.5 text-[11px] font-semibold text-brand">
-                  {basket.count}
-                </span>
-              )}
+              {/* Always shown (0 by default) so the button width is stable and
+                  the basket is noticeable from the start. */}
+              <span className="min-w-[1.25rem] rounded-full bg-white px-1.5 text-center text-[11px] font-semibold text-brand">
+                {basket.count}
+              </span>
             </button>
             <button
               onClick={() => window.print()}
