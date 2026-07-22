@@ -1,8 +1,8 @@
 "use client";
 
-// Client-side "bucket": the set of items a visitor has picked out to enquire
+// Client-side "basket": the set of items a visitor has picked out to enquire
 // about. Persisted in localStorage so it survives reloads and tab switches, and
-// shareable by encoding the ids into a /bucket?items=… URL (no backend needed —
+// shareable by encoding the ids into a /basket?items=… URL (no backend needed —
 // same philosophy as the ?item= deep links).
 
 import {
@@ -15,9 +15,9 @@ import {
 } from "react";
 import type { Item } from "@/lib/airtable";
 
-const STORAGE_KEY = "sale-gallery:bucket";
+const STORAGE_KEY = "sale-gallery:basket";
 
-type BucketValue = {
+type BasketValue = {
   ids: string[];
   has: (id: string) => boolean;
   toggle: (id: string) => void;
@@ -26,7 +26,7 @@ type BucketValue = {
   count: number;
 };
 
-const BucketContext = createContext<BucketValue | null>(null);
+const BasketContext = createContext<BasketValue | null>(null);
 
 function readStored(): string[] {
   try {
@@ -39,7 +39,7 @@ function readStored(): string[] {
   }
 }
 
-export function BucketProvider({ children }: { children: React.ReactNode }) {
+export function BasketProvider({ children }: { children: React.ReactNode }) {
   // Start empty so server render and first client render match; hydrate from
   // localStorage in an effect (the count badge flashes 0 → N once, on mount).
   const [ids, setIds] = useState<string[]>([]);
@@ -58,7 +58,7 @@ export function BucketProvider({ children }: { children: React.ReactNode }) {
     try {
       localStorage.setItem(STORAGE_KEY, JSON.stringify(ids));
     } catch {
-      // Ignore quota / private-mode errors — the bucket just won't persist.
+      // Ignore quota / private-mode errors — the basket just won't persist.
     }
   }, [ids]);
 
@@ -70,37 +70,37 @@ export function BucketProvider({ children }: { children: React.ReactNode }) {
   const remove = useCallback((id: string) => setIds((prev) => prev.filter((x) => x !== id)), []);
   const clear = useCallback(() => setIds([]), []);
 
-  const value = useMemo<BucketValue>(
+  const value = useMemo<BasketValue>(
     () => ({ ids, has, toggle, remove, clear, count: ids.length }),
     [ids, has, toggle, remove, clear]
   );
 
-  return <BucketContext.Provider value={value}>{children}</BucketContext.Provider>;
+  return <BasketContext.Provider value={value}>{children}</BasketContext.Provider>;
 }
 
-export function useBucket(): BucketValue {
-  const ctx = useContext(BucketContext);
-  if (!ctx) throw new Error("useBucket must be used within a BucketProvider");
+export function useBasket(): BasketValue {
+  const ctx = useContext(BasketContext);
+  if (!ctx) throw new Error("useBasket must be used within a BasketProvider");
   return ctx;
 }
 
-/** Build the shareable /bucket URL that encodes the picked item ids. */
-export function buildBucketUrl(ids: string[]): string {
+/** Build the shareable /basket URL that encodes the picked item ids. */
+export function buildBasketUrl(ids: string[]): string {
   if (typeof window === "undefined") return "";
-  return `${window.location.origin}/bucket?items=${ids.join(",")}`;
+  return `${window.location.origin}/basket?items=${ids.join(",")}`;
 }
 
-/** Parse the comma-separated ids from a /bucket?items= value. */
-export function parseBucketIds(param: string | null | undefined): string[] {
+/** Parse the comma-separated ids from a /basket?items= value. */
+export function parseBasketIds(param: string | null | undefined): string[] {
   if (!param) return [];
   return param.split(",").map((s) => s.trim()).filter(Boolean);
 }
 
-// Items are only offered while Ready/Listed; a bucketed item whose record still
+// Items are only offered while Ready/Listed; a basketed item whose record still
 // exists but has moved on (Reserved/Sold/Given away/…) counts as unavailable.
 const LISTABLE_STATUSES = ["Ready", "Listed"];
 
-export type ResolvedBucket = {
+export type ResolvedBasket = {
   available: Item[]; // resolved + still listable, in the order they were added
   unavailable: Item[]; // resolved but the status has since changed
   missingCount: number; // ids that no longer resolve to any record (deleted)
@@ -108,11 +108,11 @@ export type ResolvedBucket = {
 };
 
 /**
- * Match bucket ids against the currently-loaded items, tolerating drift: items
+ * Match basket ids against the currently-loaded items, tolerating drift: items
  * may be sold, reserved, or deleted between when they were added and when the
- * (possibly shared) bucket is viewed. Nothing here throws on a stale id.
+ * (possibly shared) basket is viewed. Nothing here throws on a stale id.
  */
-export function resolveBucket(items: Item[], ids: string[]): ResolvedBucket {
+export function resolveBasket(items: Item[], ids: string[]): ResolvedBasket {
   const byId = new Map(items.map((i) => [i.id, i] as const));
   const available: Item[] = [];
   const unavailable: Item[] = [];

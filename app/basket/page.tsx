@@ -1,11 +1,11 @@
 import { getItems, type Item } from "@/lib/airtable";
-import BucketPage from "@/components/BucketPage";
+import BasketPage from "@/components/BasketPage";
 
 // Refetch from Airtable every 10 min so signed photo URLs stay valid.
 export const revalidate = 600;
 
-// The shareable basket. "/bucket?items=rec1,rec2" is the link a buyer sends;
-// "/bucket" with no param shows the visitor's own saved basket.
+// The shareable basket. "/basket?items=rec1,rec2" is the link a buyer sends;
+// "/basket" with no param shows the visitor's own saved basket.
 export default async function Page({
   searchParams,
 }: {
@@ -30,5 +30,5 @@ export default async function Page({
     );
   }
 
-  return <BucketPage items={items} sharedParam={itemsParam ?? null} />;
+  return <BasketPage items={items} sharedParam={itemsParam ?? null} />;
 }

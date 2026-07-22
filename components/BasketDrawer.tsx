@@ -2,13 +2,13 @@
 
 import { useEffect } from "react";
 import type { Item, Lang } from "@/lib/airtable";
-import { useBucket } from "@/lib/bucket";
+import { useBasket } from "@/lib/basket";
 import { t } from "@/lib/i18n";
-import BucketContents from "@/components/BucketContents";
+import BasketContents from "@/components/BasketContents";
 
-// Slide-over for assembling the basket while browsing. The full-page /bucket
-// route renders the same BucketContents for the shareable, standalone view.
-export default function BucketDrawer({
+// Slide-over for assembling the basket while browsing. The full-page /basket
+// route renders the same BasketContents for the shareable, standalone view.
+export default function BasketDrawer({
   items,
   lang,
   open,
@@ -19,7 +19,7 @@ export default function BucketDrawer({
   open: boolean;
   onClose: () => void;
 }) {
-  const { ids, count, clear } = useBucket();
+  const { ids, count, clear } = useBasket();
   const s = t(lang);
 
   useEffect(() => {
@@ -70,12 +70,12 @@ export default function BucketDrawer({
         </div>
 
         <div className="flex-1 overflow-y-auto px-4 pb-4">
-          <BucketContents ids={ids} items={items} lang={lang} editable />
+          <BasketContents ids={ids} items={items} lang={lang} editable />
         </div>
 
         {count > 0 && (
           <a
-            href="/bucket"
+            href="/basket"
             className="border-t border-gray-100 px-4 py-3 text-center text-sm font-medium text-brand hover:underline"
           >
             {s.viewBasket} →

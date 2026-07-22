@@ -2,7 +2,7 @@
 
 import { useState } from "react";
 import { nameFor, type Item, type Lang } from "@/lib/airtable";
-import { buildBucketUrl, resolveBucket, useBucket } from "@/lib/bucket";
+import { buildBasketUrl, resolveBasket, useBasket } from "@/lib/basket";
 import { t, tStatus } from "@/lib/i18n";
 import { copyText } from "@/components/ShareButton";
 import { formatPrice } from "@/components/ItemCard";
@@ -20,7 +20,7 @@ function Row({
   editable: boolean;
   dim?: boolean;
 }) {
-  const { remove } = useBucket();
+  const { remove } = useBasket();
   const s = t(lang);
   const cover = item.photos[0];
 
@@ -63,18 +63,19 @@ function Row({
           onClick={() => remove(item.id)}
           aria-label={s.remove}
           title={s.remove}
-          className="flex-shrink-0 rounded-md p-1.5 text-gray-400 transition hover:bg-gray-100 hover:text-gray-700"
+          className="flex flex-shrink-0 items-center gap-1 rounded-full border border-gray-200 px-2.5 py-1.5 text-xs font-medium text-gray-500 transition hover:border-red-200 hover:bg-red-50 hover:text-red-600"
         >
-          <svg viewBox="0 0 24 24" className="h-4 w-4" fill="none" stroke="currentColor" strokeWidth={2} strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
+          <svg viewBox="0 0 24 24" className="h-3.5 w-3.5" fill="none" stroke="currentColor" strokeWidth={2.2} strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
             <path d="M18 6 6 18M6 6l12 12" />
           </svg>
+          <span className="hidden sm:inline">{s.remove}</span>
         </button>
       )}
     </li>
   );
 }
 
-export default function BucketContents({
+export default function BasketContents({
   ids,
   items,
   lang,
@@ -87,12 +88,12 @@ export default function BucketContents({
 }) {
   const s = t(lang);
   const [copied, setCopied] = useState(false);
-  const { available, unavailable, missingCount, total } = resolveBucket(items, ids);
+  const { available, unavailable, missingCount, total } = resolveBasket(items, ids);
   // Nothing from the basket survived the drift (all sold / deleted).
   const allGone = ids.length > 0 && available.length === 0 && unavailable.length === 0;
 
   const onShare = async () => {
-    const ok = await copyText(buildBucketUrl(ids));
+    const ok = await copyText(buildBasketUrl(ids));
     if (ok) {
       setCopied(true);
       setTimeout(() => setCopied(false), 1500);

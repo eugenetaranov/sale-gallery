@@ -3,7 +3,7 @@
 import { isTallPhoto, nameFor, type Item, type Lang } from "@/lib/airtable";
 import { t, tCondition, tKind } from "@/lib/i18n";
 import ShareButton from "@/components/ShareButton";
-import BucketToggle from "@/components/BucketToggle";
+import BasketToggle from "@/components/BasketToggle";
 
 // A target price of exactly 0 marks a giveaway ("Free"); null means unknown ("—").
 export function formatPrice(v: number | null, lang: Lang): string {
@@ -59,7 +59,7 @@ export default function ItemCard({
             1/{item.photos.length}
           </span>
         )}
-        <BucketToggle id={item.id} lang={lang} variant="icon" className="absolute left-2 top-2" />
+        <BasketToggle id={item.id} lang={lang} variant="icon" className="absolute left-2 top-2" />
         <ShareButton id={item.id} lang={lang} variant="icon" className="absolute right-2 top-2" />
       </div>
 

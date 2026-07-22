@@ -1,7 +1,7 @@
 "use client";
 
 import type { Lang } from "@/lib/airtable";
-import { useBucket } from "@/lib/bucket";
+import { useBasket } from "@/lib/basket";
 import { t } from "@/lib/i18n";
 
 // A shopping-bag glyph; the checkmark is added when the item is in the basket.
@@ -24,7 +24,7 @@ function BagIcon({ checked, className = "" }: { checked: boolean; className?: st
   );
 }
 
-export default function BucketToggle({
+export default function BasketToggle({
   id,
   lang = "ES",
   variant = "button",
@@ -35,7 +35,7 @@ export default function BucketToggle({
   variant?: "icon" | "button";
   className?: string;
 }) {
-  const { has, toggle } = useBucket();
+  const { has, toggle } = useBasket();
   const inBasket = has(id);
   const s = t(lang);
   const label = inBasket ? s.inBasket : s.addToBasket;

@@ -8,8 +8,8 @@ import Toolbar, { type SortKey } from "@/components/Toolbar";
 import ItemCard from "@/components/ItemCard";
 import ItemDetail from "@/components/ItemDetail";
 import PrintCatalog from "@/components/PrintCatalog";
-import BucketDrawer from "@/components/BucketDrawer";
-import { useBucket } from "@/lib/bucket";
+import BasketDrawer from "@/components/BasketDrawer";
+import { useBasket } from "@/lib/basket";
 
 const SALE_STATUSES = ["Ready", "Listed"];
 
@@ -25,8 +25,8 @@ export default function Gallery({ items }: { items: Item[] }) {
   const [sort, setSort] = useState<SortKey>("price-asc");
   const [lang, setLang] = useState<Lang>("ES");
   const [active, setActive] = useState<Item | null>(null);
-  const [bucketOpen, setBucketOpen] = useState(false);
-  const bucket = useBucket();
+  const [basketOpen, setBasketOpen] = useState(false);
+  const basket = useBasket();
 
   // The active tab IS the URL path: "/" = For sale, "/free" = donated. This
   // makes each tab a real, shareable link. Switching tabs pushes the path via
@@ -141,7 +141,7 @@ export default function Gallery({ items }: { items: Item[] }) {
           </span>
           <div className="ml-auto flex items-center gap-2">
             <button
-              onClick={() => setBucketOpen(true)}
+              onClick={() => setBasketOpen(true)}
               className="relative flex items-center gap-1.5 rounded-md bg-white/20 px-3 py-1.5 text-xs font-medium text-white transition hover:bg-white/30"
             >
               <svg viewBox="0 0 24 24" className="h-4 w-4" fill="none" stroke="currentColor" strokeWidth={2} strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
@@ -150,9 +150,9 @@ export default function Gallery({ items }: { items: Item[] }) {
                 <path d="M16 10a4 4 0 0 1-8 0" />
               </svg>
               {s.basket}
-              {bucket.count > 0 && (
+              {basket.count > 0 && (
                 <span className="rounded-full bg-white px-1.5 text-[11px] font-semibold text-brand">
-                  {bucket.count}
+                  {basket.count}
                 </span>
               )}
             </button>
@@ -235,11 +235,11 @@ export default function Gallery({ items }: { items: Item[] }) {
         <ItemDetail item={active} lang={lang} onClose={() => setActive(null)} />
       )}
 
-      <BucketDrawer
+      <BasketDrawer
         items={items}
         lang={lang}
-        open={bucketOpen}
-        onClose={() => setBucketOpen(false)}
+        open={basketOpen}
+        onClose={() => setBasketOpen(false)}
       />
     </div>
 
