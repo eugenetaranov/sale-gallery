@@ -62,7 +62,7 @@ export default function PrintCatalog({ items, lang }: { items: Item[]; lang: Lan
                     <div className="flex items-start justify-between gap-2">
                       <h3 className="text-sm font-semibold leading-snug">{title}</h3>
                       <span className="whitespace-nowrap text-sm font-bold">
-                        {formatPrice(item.targetPrice)}
+                        {formatPrice(item.targetPrice, lang)}
                       </span>
                     </div>
                     <div className="flex flex-wrap gap-1">

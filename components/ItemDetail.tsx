@@ -132,8 +132,12 @@ export default function ItemDetail({
                 )}
               </div>
             </div>
-            <div className="whitespace-nowrap text-2xl font-bold text-gray-900">
-              {formatPrice(item.targetPrice)}
+            <div
+              className={`whitespace-nowrap text-2xl font-bold ${
+                item.targetPrice === 0 ? "text-emerald-600" : "text-gray-900"
+              }`}
+            >
+              {formatPrice(item.targetPrice, lang)}
             </div>
           </div>
 

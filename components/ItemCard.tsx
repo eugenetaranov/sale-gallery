@@ -1,11 +1,14 @@
 "use client";
 
 import { isTallPhoto, nameFor, type Item, type Lang } from "@/lib/airtable";
-import { tCondition, tKind } from "@/lib/i18n";
+import { t, tCondition, tKind } from "@/lib/i18n";
 import ShareButton from "@/components/ShareButton";
 
-export function formatPrice(v: number | null): string {
-  return v == null ? "—" : `€${v}`;
+// A target price of exactly 0 marks a giveaway ("Free"); null means unknown ("—").
+export function formatPrice(v: number | null, lang: Lang): string {
+  if (v == null) return "—";
+  if (v === 0) return t(lang).free;
+  return `€${v}`;
 }
 
 export default function ItemCard({
@@ -74,8 +77,12 @@ export default function ItemCard({
             </span>
           )}
         </div>
-        <div className="mt-auto text-base font-semibold text-gray-900">
-          {formatPrice(item.targetPrice)}
+        <div
+          className={`mt-auto text-base font-semibold ${
+            item.targetPrice === 0 ? "text-emerald-600" : "text-gray-900"
+          }`}
+        >
+          {formatPrice(item.targetPrice, lang)}
         </div>
       </div>
     </div>

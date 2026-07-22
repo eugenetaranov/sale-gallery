@@ -18,6 +18,7 @@ export type UIStrings = {
   noDescription: string;
   productSheet: string;
   exportPdf: string;
+  free: string;
 };
 
 const STRINGS: Record<Lang, UIStrings> = {
@@ -36,6 +37,7 @@ const STRINGS: Record<Lang, UIStrings> = {
     noDescription: "Sin descripción.",
     productSheet: "Ficha del producto",
     exportPdf: "Descargar PDF",
+    free: "Gratis",
   },
   EN: {
     headerTitle: "For sale",
@@ -52,6 +54,7 @@ const STRINGS: Record<Lang, UIStrings> = {
     noDescription: "No description.",
     productSheet: "Product page",
     exportPdf: "Download PDF",
+    free: "Free",
   },
   UA: {
     headerTitle: "Продаж",
@@ -68,6 +71,7 @@ const STRINGS: Record<Lang, UIStrings> = {
     noDescription: "Без опису.",
     productSheet: "Сторінка товару",
     exportPdf: "Завантажити PDF",
+    free: "Безкоштовно",
   },
   RU: {
     headerTitle: "Продажа",
@@ -84,6 +88,7 @@ const STRINGS: Record<Lang, UIStrings> = {
     noDescription: "Без описания.",
     productSheet: "Страница товара",
     exportPdf: "Скачать PDF",
+    free: "Бесплатно",
   },
 };
 

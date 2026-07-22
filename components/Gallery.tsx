@@ -10,12 +10,19 @@ import PrintCatalog from "@/components/PrintCatalog";
 
 const SALE_STATUSES = ["Ready", "Listed"];
 
+// A target price of exactly 0 means the item is a giveaway ("Free"); any other
+// value (including null = unknown) belongs to the paid "For sale" tab.
+const isFree = (i: Item) => i.targetPrice === 0;
+
+type Tab = "sale" | "free";
+
 export default function Gallery({ items }: { items: Item[] }) {
   const [query, setQuery] = useState("");
   const [selectedKinds, setSelectedKinds] = useState<string[]>([]);
   const [sort, setSort] = useState<SortKey>("price-asc");
   const [lang, setLang] = useState<Lang>("ES");
   const [active, setActive] = useState<Item | null>(null);
+  const [tab, setTab] = useState<Tab>("sale");
 
   // Open the item referenced by ?item=recId on first load (deep link / shared link).
   useEffect(() => {
@@ -41,6 +48,17 @@ export default function Gallery({ items }: { items: Item[] }) {
     [items]
   );
 
+  // Tab counts: how many listable (Ready/Listed) items are free vs for sale.
+  const listable = useMemo(
+    () => items.filter((i) => SALE_STATUSES.includes(i.status)),
+    [items]
+  );
+  const freeCount = useMemo(() => listable.filter(isFree).length, [listable]);
+  const saleCount = listable.length - freeCount;
+  // Only surface the Free tab once at least one giveaway exists.
+  const showTabs = freeCount > 0;
+  const activeTab: Tab = showTabs ? tab : "sale";
+
   // The PDF catalog always covers the whole sale list (ignoring the on-screen
   // filters/search/sort), grouped by category then price for a stable order.
   const saleItems = useMemo(
@@ -60,6 +78,8 @@ export default function Gallery({ items }: { items: Item[] }) {
     const q = query.trim().toLowerCase();
     const result = items.filter((i) => {
       if (!SALE_STATUSES.includes(i.status)) return false;
+      // Split the two tabs: "free" shows only giveaways, "sale" only the rest.
+      if (activeTab === "free" ? !isFree(i) : isFree(i)) return false;
       if (selectedKinds.length && !selectedKinds.includes(i.kind)) return false;
       // Search across all language titles so items are findable in any language.
       if (q && !Object.values(i.names).join(" ").toLowerCase().includes(q)) return false;
@@ -80,7 +100,7 @@ export default function Gallery({ items }: { items: Item[] }) {
       }
     });
     return result;
-  }, [items, query, selectedKinds, sort, lang]);
+  }, [items, query, selectedKinds, sort, lang, activeTab]);
 
   const toggleKind = (kind: string) =>
     setSelectedKinds((prev) =>
@@ -97,7 +117,9 @@ export default function Gallery({ items }: { items: Item[] }) {
           <div className="flex h-7 w-7 items-center justify-center rounded bg-white/20 text-sm font-bold">
             €
           </div>
-          <h1 className="text-lg font-semibold">{s.headerTitle}</h1>
+          <h1 className="text-lg font-semibold">
+            {activeTab === "free" ? s.free : s.headerTitle}
+          </h1>
           <span className="ml-1 rounded-full bg-white/20 px-2 py-0.5 text-xs">
             {filtered.length} {s.items}
           </span>
@@ -111,6 +133,46 @@ export default function Gallery({ items }: { items: Item[] }) {
       </header>
 
       <div className="mx-auto max-w-7xl px-4 py-4">
+        {showTabs && (
+          <div
+            role="tablist"
+            aria-label={s.headerTitle}
+            className="mb-4 inline-flex rounded-lg border border-gray-200 bg-white p-1"
+          >
+            {([
+              { key: "sale", label: s.headerTitle, count: saleCount },
+              { key: "free", label: s.free, count: freeCount },
+            ] as const).map(({ key, label, count }) => {
+              const on = activeTab === key;
+              const isFreeTab = key === "free";
+              return (
+                <button
+                  key={key}
+                  role="tab"
+                  aria-selected={on}
+                  onClick={() => setTab(key)}
+                  className={`flex items-center gap-2 rounded-md px-4 py-1.5 text-sm font-medium transition ${
+                    on
+                      ? isFreeTab
+                        ? "bg-emerald-600 text-white"
+                        : "bg-brand text-white"
+                      : "text-gray-600 hover:bg-gray-50"
+                  }`}
+                >
+                  {label}
+                  <span
+                    className={`rounded-full px-1.5 text-xs ${
+                      on ? "bg-white/25 text-white" : "bg-gray-100 text-gray-500"
+                    }`}
+                  >
+                    {count}
+                  </span>
+                </button>
+              );
+            })}
+          </div>
+        )}
+
         <Toolbar
           query={query}
           onQuery={setQuery}
