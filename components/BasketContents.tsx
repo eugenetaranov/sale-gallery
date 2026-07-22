@@ -48,13 +48,20 @@ function Row({
               {s.noLongerAvailable} · {tStatus(item.status, lang)}
             </span>
           ) : (
-            <span
-              className={`text-sm font-semibold ${
-                item.targetPrice === 0 ? "text-emerald-600" : "text-gray-700"
-              }`}
-            >
-              {formatPrice(item.targetPrice, lang)}
-            </span>
+            <div className="flex items-center gap-2">
+              <span
+                className={`text-sm font-semibold ${
+                  item.targetPrice === 0 ? "text-emerald-600" : "text-gray-700"
+                }`}
+              >
+                {formatPrice(item.targetPrice, lang)}
+              </span>
+              {item.quantity > 1 && (
+                <span className="rounded-full bg-amber-100 px-1.5 py-0.5 text-[11px] font-semibold text-amber-800">
+                  ×{item.quantity}
+                </span>
+              )}
+            </div>
           )}
         </div>
       </a>
