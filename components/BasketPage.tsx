@@ -21,7 +21,14 @@ export default function BasketPage({
   const s = t(lang);
 
   const isShared = sharedParam !== null;
-  const ids = isShared ? parseBasketIds(sharedParam) : basket.ids;
+  // A shared basket comes from the URL, not the visitor's own storage, so its
+  // edits live in local state (ephemeral) — removing trims the list and the
+  // copied link. The visitor's own basket edits go through the store.
+  const [sharedIds, setSharedIds] = useState<string[]>(() => parseBasketIds(sharedParam));
+  const ids = isShared ? sharedIds : basket.ids;
+  const onRemove = isShared
+    ? (id: string) => setSharedIds((prev) => prev.filter((x) => x !== id))
+    : basket.remove;
 
   return (
     <div className="min-h-screen">
@@ -51,7 +58,7 @@ export default function BasketPage({
           jump on navigation; the list itself stays narrow for readability. */}
       <main className="mx-auto max-w-7xl px-4 py-6">
         <div className="mx-auto max-w-2xl">
-          <BasketContents ids={ids} items={items} lang={lang} editable={!isShared} />
+          <BasketContents ids={ids} items={items} lang={lang} onRemove={onRemove} />
         </div>
       </main>
     </div>

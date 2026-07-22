@@ -19,7 +19,7 @@ export default function BasketDrawer({
   open: boolean;
   onClose: () => void;
 }) {
-  const { ids, count, clear } = useBasket();
+  const { ids, count, clear, remove } = useBasket();
   const s = t(lang);
 
   useEffect(() => {
@@ -70,7 +70,7 @@ export default function BasketDrawer({
         </div>
 
         <div className="flex-1 overflow-y-auto px-4 pb-4">
-          <BasketContents ids={ids} items={items} lang={lang} editable />
+          <BasketContents ids={ids} items={items} lang={lang} onRemove={remove} />
         </div>
 
         {count > 0 && (

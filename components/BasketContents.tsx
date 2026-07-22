@@ -2,25 +2,25 @@
 
 import { useState } from "react";
 import { nameFor, type Item, type Lang } from "@/lib/airtable";
-import { buildBasketUrl, resolveBasket, useBasket } from "@/lib/basket";
+import { buildBasketUrl, resolveBasket } from "@/lib/basket";
 import { t, tStatus } from "@/lib/i18n";
 import { copyText } from "@/components/ShareButton";
 import { formatPrice } from "@/components/ItemCard";
 
 // One line in the basket. `dim` marks status-changed items (kept visible so the
-// buyer sees what dropped off, but excluded from the total).
+// buyer sees what dropped off, but excluded from the total). The remove button
+// appears whenever an `onRemove` handler is supplied.
 function Row({
   item,
   lang,
-  editable,
+  onRemove,
   dim = false,
 }: {
   item: Item;
   lang: Lang;
-  editable: boolean;
+  onRemove?: (id: string) => void;
   dim?: boolean;
 }) {
-  const { remove } = useBasket();
   const s = t(lang);
   const cover = item.photos[0];
 
@@ -58,9 +58,9 @@ function Row({
           )}
         </div>
       </a>
-      {editable && (
+      {onRemove && (
         <button
-          onClick={() => remove(item.id)}
+          onClick={() => onRemove(item.id)}
           aria-label={s.remove}
           title={s.remove}
           className="flex flex-shrink-0 items-center gap-1 rounded-full border border-gray-200 px-2.5 py-1.5 text-xs font-medium text-gray-500 transition hover:border-red-200 hover:bg-red-50 hover:text-red-600"
@@ -79,12 +79,12 @@ export default function BasketContents({
   ids,
   items,
   lang,
-  editable,
+  onRemove,
 }: {
   ids: string[];
   items: Item[];
   lang: Lang;
-  editable: boolean;
+  onRemove?: (id: string) => void;
 }) {
   const s = t(lang);
   const [copied, setCopied] = useState(false);
@@ -114,10 +114,10 @@ export default function BasketContents({
     <div className="flex h-full flex-col">
       <ul className="flex-1 divide-y divide-gray-100 overflow-y-auto">
         {available.map((item) => (
-          <Row key={item.id} item={item} lang={lang} editable={editable} />
+          <Row key={item.id} item={item} lang={lang} onRemove={onRemove} />
         ))}
         {unavailable.map((item) => (
-          <Row key={item.id} item={item} lang={lang} editable={editable} dim />
+          <Row key={item.id} item={item} lang={lang} onRemove={onRemove} dim />
         ))}
       </ul>
 
