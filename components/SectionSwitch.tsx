@@ -31,7 +31,13 @@ export default function SectionSwitch<K extends string>({
             }`}
           >
             {item.label}
-            <span className={`text-xs font-medium ${on ? "text-white/70" : "text-white/45"}`}>
+            {/* Reserved width + tabular figures so the count doesn't shift the
+                menu when it changes (e.g. 35 → 5 while filtering). */}
+            <span
+              className={`inline-block min-w-[1.5rem] text-left text-xs font-medium tabular-nums ${
+                on ? "text-white/70" : "text-white/45"
+              }`}
+            >
               {item.count}
             </span>
           </button>

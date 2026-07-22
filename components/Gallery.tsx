@@ -137,28 +137,34 @@ export default function Gallery({ items }: { items: Item[] }) {
           <div className="flex h-7 w-7 items-center justify-center rounded bg-white/20 text-sm font-bold">
             €
           </div>
-          {/* The section switcher (segmented control) replaces the old title +
-              separate tab bar. When there's only one section, it's a plain
-              title. */}
+          {/* The section switcher (light text menu) replaces the old title +
+              separate tab bar. The active section's count reflects the current
+              (filtered) results; the other shows its section total. With one
+              section it's a plain title with an inline count. */}
           {showTabs ? (
             <SectionSwitch
               active={activeTab}
               onSelect={selectTab}
               items={[
-                { key: "sale", label: s.headerTitle, count: saleCount },
-                { key: "free", label: s.free, count: freeCount },
+                {
+                  key: "sale",
+                  label: s.headerTitle,
+                  count: activeTab === "sale" ? filtered.length : saleCount,
+                },
+                {
+                  key: "free",
+                  label: s.free,
+                  count: activeTab === "free" ? filtered.length : freeCount,
+                },
               ]}
             />
           ) : (
-            <h1 className="text-lg font-semibold">{s.headerTitle}</h1>
-          )}
-          {/* Count badge: always shown when there's no switcher (single
-              section); with the switcher, only while filtering, so it doesn't
-              just repeat the section total the switcher already shows. */}
-          {(!showTabs || query.trim() !== "" || selectedKinds.length > 0) && (
-            <span className="ml-1 rounded-full bg-white/20 px-2 py-0.5 text-xs">
-              {filtered.length} {s.items}
-            </span>
+            <h1 className="flex items-center gap-1.5 text-lg font-semibold">
+              {s.headerTitle}
+              <span className="text-xs font-medium tabular-nums text-white/70">
+                {filtered.length}
+              </span>
+            </h1>
           )}
           <div className="ml-auto flex items-center gap-2">
             <button
