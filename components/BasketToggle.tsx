@@ -3,6 +3,7 @@
 import type { Lang } from "@/lib/airtable";
 import { useBasket } from "@/lib/basket";
 import { t } from "@/lib/i18n";
+import Tooltip from "@/components/Tooltip";
 
 // A shopping-bag glyph; the checkmark is added when the item is in the basket.
 function BagIcon({ checked, className = "" }: { checked: boolean; className?: string }) {
@@ -52,14 +53,14 @@ export default function BasketToggle({
         onClick={onClick}
         aria-label={label}
         aria-pressed={inBasket}
-        title={label}
-        className={`flex h-8 w-8 items-center justify-center rounded-lg shadow-sm ring-1 transition ${
+        className={`group/tip flex h-8 w-8 items-center justify-center rounded-lg shadow-sm ring-1 transition ${
           inBasket
             ? "bg-brand text-white ring-brand hover:bg-brand/90"
             : "bg-white text-gray-800 ring-black/10 hover:bg-gray-50 hover:text-black"
         } ${className}`}
       >
         <BagIcon checked={inBasket} className="h-4 w-4" />
+        <Tooltip align="left">{label}</Tooltip>
       </button>
     );
   }

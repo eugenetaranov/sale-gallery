@@ -3,6 +3,7 @@
 import { useState } from "react";
 import type { Lang } from "@/lib/airtable";
 import { t } from "@/lib/i18n";
+import Tooltip from "@/components/Tooltip";
 
 // Build a shareable, deep-linkable URL for a single item.
 export function buildShareUrl(id: string): string {
@@ -98,12 +99,12 @@ export default function ShareButton({
       <button
         onClick={onClick}
         aria-label={s.copyLink}
-        title={s.copyLink}
-        className={`flex h-8 w-8 items-center justify-center rounded-lg bg-white text-gray-800 shadow-sm ring-1 ring-black/10 transition hover:bg-gray-50 hover:text-black ${
+        className={`group/tip flex h-8 w-8 items-center justify-center rounded-lg bg-white text-gray-800 shadow-sm ring-1 ring-black/10 transition hover:bg-gray-50 hover:text-black ${
           copied ? "text-green-600 hover:text-green-600" : ""
         } ${className}`}
       >
         {copied ? <CheckIcon className="h-4 w-4" /> : <LinkIcon className="h-4 w-4" />}
+        <Tooltip align="right">{copied ? s.linkCopied : s.copyLink}</Tooltip>
       </button>
     );
   }
