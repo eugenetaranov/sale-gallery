@@ -133,8 +133,16 @@ export default function Gallery({ items }: { items: Item[] }) {
           <div className="flex h-7 w-7 items-center justify-center rounded bg-white/20 text-sm font-bold">
             €
           </div>
-          <h1 className="text-lg font-semibold">
-            {activeTab === "free" ? s.free : s.headerTitle}
+          {/* Reserve the width of the wider of the two tab titles so the count
+              badge beside it doesn't jump when switching tabs. Both labels are
+              stacked in one grid cell (invisible sizers), so this adapts to each
+              language's word lengths automatically. */}
+          <h1 className="grid text-lg font-semibold">
+            <span aria-hidden className="invisible col-start-1 row-start-1">{s.headerTitle}</span>
+            <span aria-hidden className="invisible col-start-1 row-start-1">{s.free}</span>
+            <span className="col-start-1 row-start-1">
+              {activeTab === "free" ? s.free : s.headerTitle}
+            </span>
           </h1>
           <span className="ml-1 rounded-full bg-white/20 px-2 py-0.5 text-xs">
             {filtered.length} {s.items}
