@@ -30,15 +30,18 @@ export default function BasketPage({
     ? (id: string) => setSharedIds((prev) => prev.filter((x) => x !== id))
     : basket.remove;
 
-  // Keep the address bar in step with what's on screen: removing an item drops
-  // it from ?items= too, so the URL you'd copy (or reload) matches the list.
-  // replaceState avoids piling up history entries per removal.
+  // Shared view only: keep the address bar in step with what's on screen, so the
+  // URL you'd copy (or reload) matches the trimmed list. The own basket stays at
+  // a clean /basket — adding ?items= there would make a reload look like a shared
+  // link and drop edits into the ephemeral path. replaceState avoids piling up
+  // history entries per removal.
   useEffect(() => {
+    if (!isShared) return;
     const url = new URL(window.location.href);
     if (ids.length > 0) url.searchParams.set("items", ids.join(","));
     else url.searchParams.delete("items");
     window.history.replaceState(window.history.state, "", url);
-  }, [ids]);
+  }, [ids, isShared]);
 
   return (
     <div className="min-h-screen">

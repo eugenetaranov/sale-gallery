@@ -75,9 +75,10 @@ export default function BasketDrawer({
 
         {count > 0 && (
           <a
-            // Same URL as "Copy link": the full page shows exactly this basket
-            // via ?items=, matching what would be shared.
-            href={`/basket?items=${ids.join(",")}`}
+            // The owner's editable basket (no ?items=), so removals persist to
+            // storage. /basket?items= is the ephemeral shared view; the share
+            // link is produced by "Copy link" inside the page.
+            href="/basket"
             className="border-t border-gray-100 px-4 py-3 text-center text-sm font-medium text-brand hover:underline"
           >
             {s.viewBasket} →
