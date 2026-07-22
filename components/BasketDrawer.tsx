@@ -75,7 +75,9 @@ export default function BasketDrawer({
 
         {count > 0 && (
           <a
-            href="/basket"
+            // Same URL as "Copy link": the full page shows exactly this basket
+            // via ?items=, matching what would be shared.
+            href={`/basket?items=${ids.join(",")}`}
             className="border-t border-gray-100 px-4 py-3 text-center text-sm font-medium text-brand hover:underline"
           >
             {s.viewBasket} →
