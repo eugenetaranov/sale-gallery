@@ -9,6 +9,7 @@ import ItemCard from "@/components/ItemCard";
 import ItemDetail from "@/components/ItemDetail";
 import PrintCatalog from "@/components/PrintCatalog";
 import BasketDrawer from "@/components/BasketDrawer";
+import SectionMenu from "@/components/SectionMenu";
 import { useBasket } from "@/lib/basket";
 
 const SALE_STATUSES = ["Ready", "Listed"];
@@ -136,17 +137,21 @@ export default function Gallery({ items }: { items: Item[] }) {
           <div className="flex h-7 w-7 items-center justify-center rounded bg-white/20 text-sm font-bold">
             €
           </div>
-          {/* Reserve the width of the wider of the two tab titles so the count
-              badge beside it doesn't jump when switching tabs. Both labels are
-              stacked in one grid cell (invisible sizers), so this adapts to each
-              language's word lengths automatically. */}
-          <h1 className="grid text-lg font-semibold">
-            <span aria-hidden className="invisible col-start-1 row-start-1">{s.headerTitle}</span>
-            <span aria-hidden className="invisible col-start-1 row-start-1">{s.free}</span>
-            <span className="col-start-1 row-start-1">
-              {activeTab === "free" ? s.free : s.headerTitle}
-            </span>
-          </h1>
+          {/* The title doubles as the section switcher (menu), replacing the
+              separate tab bar. When there's only one section, it's a plain
+              title. */}
+          {showTabs ? (
+            <SectionMenu
+              active={activeTab}
+              onSelect={selectTab}
+              items={[
+                { key: "sale", label: s.headerTitle, count: saleCount },
+                { key: "free", label: s.free, count: freeCount },
+              ]}
+            />
+          ) : (
+            <h1 className="text-lg font-semibold">{s.headerTitle}</h1>
+          )}
           <span className="ml-1 rounded-full bg-white/20 px-2 py-0.5 text-xs">
             {filtered.length} {s.items}
           </span>
@@ -178,41 +183,6 @@ export default function Gallery({ items }: { items: Item[] }) {
       </header>
 
       <div className="mx-auto max-w-7xl px-4 py-4">
-        {showTabs && (
-          <div
-            role="tablist"
-            aria-label={s.headerTitle}
-            className="mb-4 inline-flex rounded-lg border border-gray-200 bg-white p-1"
-          >
-            {([
-              { key: "sale", label: s.headerTitle, count: saleCount },
-              { key: "free", label: s.free, count: freeCount },
-            ] as const).map(({ key, label, count }) => {
-              const on = activeTab === key;
-              return (
-                <button
-                  key={key}
-                  role="tab"
-                  aria-selected={on}
-                  onClick={() => selectTab(key)}
-                  className={`flex items-center gap-2 rounded-md px-4 py-1.5 text-sm font-medium transition focus:outline-none focus-visible:ring-2 focus-visible:ring-brand focus-visible:ring-offset-1 ${
-                    on ? "bg-brand text-white" : "text-gray-600 hover:bg-gray-50"
-                  }`}
-                >
-                  {label}
-                  <span
-                    className={`rounded-full px-1.5 text-xs ${
-                      on ? "bg-white/25 text-white" : "bg-gray-100 text-gray-500"
-                    }`}
-                  >
-                    {count}
-                  </span>
-                </button>
-              );
-            })}
-          </div>
-        )}
-
         <Toolbar
           query={query}
           onQuery={setQuery}
