@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { LANGS, type Item, type Lang } from "@/lib/airtable";
 import { parseBasketIds, useBasket } from "@/lib/basket";
 import { t } from "@/lib/i18n";
@@ -29,6 +29,16 @@ export default function BasketPage({
   const onRemove = isShared
     ? (id: string) => setSharedIds((prev) => prev.filter((x) => x !== id))
     : basket.remove;
+
+  // Keep the address bar in step with what's on screen: removing an item drops
+  // it from ?items= too, so the URL you'd copy (or reload) matches the list.
+  // replaceState avoids piling up history entries per removal.
+  useEffect(() => {
+    const url = new URL(window.location.href);
+    if (ids.length > 0) url.searchParams.set("items", ids.join(","));
+    else url.searchParams.delete("items");
+    window.history.replaceState(window.history.state, "", url);
+  }, [ids]);
 
   return (
     <div className="min-h-screen">
