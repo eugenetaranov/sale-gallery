@@ -9,7 +9,7 @@ import ItemCard from "@/components/ItemCard";
 import ItemDetail from "@/components/ItemDetail";
 import PrintCatalog from "@/components/PrintCatalog";
 import BasketDrawer from "@/components/BasketDrawer";
-import SectionMenu from "@/components/SectionMenu";
+import SectionSwitch from "@/components/SectionSwitch";
 import { useBasket } from "@/lib/basket";
 
 const SALE_STATUSES = ["Ready", "Listed"];
@@ -137,11 +137,11 @@ export default function Gallery({ items }: { items: Item[] }) {
           <div className="flex h-7 w-7 items-center justify-center rounded bg-white/20 text-sm font-bold">
             €
           </div>
-          {/* The title doubles as the section switcher (menu), replacing the
+          {/* The section switcher (segmented control) replaces the old title +
               separate tab bar. When there's only one section, it's a plain
               title. */}
           {showTabs ? (
-            <SectionMenu
+            <SectionSwitch
               active={activeTab}
               onSelect={selectTab}
               items={[
@@ -152,9 +152,14 @@ export default function Gallery({ items }: { items: Item[] }) {
           ) : (
             <h1 className="text-lg font-semibold">{s.headerTitle}</h1>
           )}
-          <span className="ml-1 rounded-full bg-white/20 px-2 py-0.5 text-xs">
-            {filtered.length} {s.items}
-          </span>
+          {/* Count badge: always shown when there's no switcher (single
+              section); with the switcher, only while filtering, so it doesn't
+              just repeat the section total the switcher already shows. */}
+          {(!showTabs || query.trim() !== "" || selectedKinds.length > 0) && (
+            <span className="ml-1 rounded-full bg-white/20 px-2 py-0.5 text-xs">
+              {filtered.length} {s.items}
+            </span>
+          )}
           <div className="ml-auto flex items-center gap-2">
             <button
               onClick={() => setBasketOpen(true)}
