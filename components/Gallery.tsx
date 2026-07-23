@@ -2,7 +2,7 @@
 
 import { useEffect, useMemo, useState } from "react";
 import { usePathname } from "next/navigation";
-import { nameFor, type Item } from "@/lib/airtable";
+import { nameFor, type Item, type Lang } from "@/lib/airtable";
 import { t } from "@/lib/i18n";
 import Toolbar, { type SortKey } from "@/components/Toolbar";
 import ItemCard from "@/components/ItemCard";
@@ -21,11 +21,17 @@ const isFree = (i: Item) => i.targetPrice === 0;
 
 type Tab = "sale" | "free";
 
-export default function Gallery({ items }: { items: Item[] }) {
+export default function Gallery({
+  items,
+  initialLang = "ES",
+}: {
+  items: Item[];
+  initialLang?: Lang;
+}) {
   const [query, setQuery] = useState("");
   const [selectedKinds, setSelectedKinds] = useState<string[]>([]);
   const [sort, setSort] = useState<SortKey>("price-asc");
-  const [lang, setLang] = useStoredLang();
+  const [lang, setLang] = useStoredLang(initialLang);
   const [active, setActive] = useState<Item | null>(null);
   const [basketOpen, setBasketOpen] = useState(false);
   const basket = useBasket();

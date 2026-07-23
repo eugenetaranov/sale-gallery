@@ -1,10 +1,10 @@
-import { getItems, type Item } from "@/lib/airtable";
+import { getItems, type Item, type Lang } from "@/lib/airtable";
 import Gallery from "@/components/Gallery";
 
 // Shared server entry for the catalog routes ("/" = For sale, "/free" =
 // donated). Both render the same Gallery; the active tab is derived from the
 // URL path inside Gallery, so each tab is a real, shareable link.
-export default async function CatalogRoute() {
+export default async function CatalogRoute({ initialLang = "ES" }: { initialLang?: Lang }) {
   let items: Item[] = [];
   let error: string | null = null;
 
@@ -23,5 +23,5 @@ export default async function CatalogRoute() {
     );
   }
 
-  return <Gallery items={items} />;
+  return <Gallery items={items} initialLang={initialLang} />;
 }

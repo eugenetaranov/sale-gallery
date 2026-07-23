@@ -1,4 +1,4 @@
-import { getItems, type Item } from "@/lib/airtable";
+import { coerceLang, getItems, type Item } from "@/lib/airtable";
 import BasketPage from "@/components/BasketPage";
 
 // Refetch from Airtable every 10 min so signed photo URLs stay valid.
@@ -9,9 +9,9 @@ export const revalidate = 600;
 export default async function Page({
   searchParams,
 }: {
-  searchParams: Promise<{ items?: string }>;
+  searchParams: Promise<{ items?: string; lang?: string }>;
 }) {
-  const { items: itemsParam } = await searchParams;
+  const { items: itemsParam, lang } = await searchParams;
 
   let items: Item[] = [];
   let error: string | null = null;
@@ -30,5 +30,7 @@ export default async function Page({
     );
   }
 
-  return <BasketPage items={items} sharedParam={itemsParam ?? null} />;
+  return (
+    <BasketPage items={items} sharedParam={itemsParam ?? null} initialLang={coerceLang(lang)} />
+  );
 }

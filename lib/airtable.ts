@@ -5,6 +5,11 @@
 export type Lang = "ES" | "EN" | "UA";
 export const LANGS: Lang[] = ["ES", "EN", "UA"];
 
+/** Coerce an arbitrary value (e.g. a ?lang= query param) to a valid Lang, ES default. */
+export function coerceLang(v: unknown): Lang {
+  return typeof v === "string" && (LANGS as string[]).includes(v) ? (v as Lang) : "ES";
+}
+
 export type Photo = { small: string; large: string; full: string; width: number; height: number };
 
 export type Item = {
