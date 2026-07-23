@@ -1,8 +1,9 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import { LANGS, type Item, type Lang } from "@/lib/airtable";
+import { LANGS, type Item } from "@/lib/airtable";
 import { parseBasketIds, useBasket } from "@/lib/basket";
+import { useStoredLang } from "@/lib/useStoredLang";
 import { t } from "@/lib/i18n";
 import BasketContents from "@/components/BasketContents";
 
@@ -16,7 +17,7 @@ export default function BasketPage({
   items: Item[];
   sharedParam: string | null;
 }) {
-  const [lang, setLang] = useState<Lang>("ES");
+  const [lang, setLang] = useStoredLang();
   const basket = useBasket();
   const s = t(lang);
 
