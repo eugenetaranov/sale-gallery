@@ -27,12 +27,16 @@ type Tab = "sale" | "free";
 export default function Gallery({
   items,
   initialLang = "ES",
+  initialQuery = "",
+  initialKinds = [],
 }: {
   items: Item[];
   initialLang?: Lang;
+  initialQuery?: string;
+  initialKinds?: string[];
 }) {
-  const [query, setQuery] = useState("");
-  const [selectedKinds, setSelectedKinds] = useState<string[]>([]);
+  const [query, setQuery] = useState(initialQuery);
+  const [selectedKinds, setSelectedKinds] = useState<string[]>(initialKinds);
   const [sort, setSort] = useState<SortKey>("price-asc");
   const [lang, setLang] = useStoredLang(initialLang);
   const [active, setActive] = useState<Item | null>(null);
@@ -69,6 +73,18 @@ export default function Gallery({
     else url.searchParams.delete("item");
     window.history.replaceState(null, "", url.toString());
   }, [active]);
+
+  // Mirror the search + category filters into the URL so a filtered view (e.g.
+  // "Rugs/Textiles" or search "rug") is shareable just by copying the address.
+  useEffect(() => {
+    const url = new URL(window.location.href);
+    const q = query.trim();
+    if (q) url.searchParams.set("search", q);
+    else url.searchParams.delete("search");
+    if (selectedKinds.length) url.searchParams.set("kinds", selectedKinds.join(","));
+    else url.searchParams.delete("kinds");
+    window.history.replaceState(window.history.state, "", url);
+  }, [query, selectedKinds]);
 
   const kinds = useMemo(
     () => Array.from(new Set(items.map((i) => i.kind).filter(Boolean))).sort(),

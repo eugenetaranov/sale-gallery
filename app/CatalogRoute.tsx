@@ -4,7 +4,15 @@ import Gallery from "@/components/Gallery";
 // Shared server entry for the catalog routes ("/" = For sale, "/free" =
 // donated). Both render the same Gallery; the active tab is derived from the
 // URL path inside Gallery, so each tab is a real, shareable link.
-export default async function CatalogRoute({ initialLang = "ES" }: { initialLang?: Lang }) {
+export default async function CatalogRoute({
+  initialLang = "ES",
+  initialQuery = "",
+  initialKinds = [],
+}: {
+  initialLang?: Lang;
+  initialQuery?: string;
+  initialKinds?: string[];
+}) {
   let items: Item[] = [];
   let error: string | null = null;
 
@@ -23,5 +31,12 @@ export default async function CatalogRoute({ initialLang = "ES" }: { initialLang
     );
   }
 
-  return <Gallery items={items} initialLang={initialLang} />;
+  return (
+    <Gallery
+      items={items}
+      initialLang={initialLang}
+      initialQuery={initialQuery}
+      initialKinds={initialKinds}
+    />
+  );
 }

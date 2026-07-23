@@ -10,6 +10,16 @@ export function coerceLang(v: unknown): Lang {
   return typeof v === "string" && (LANGS as string[]).includes(v) ? (v as Lang) : "ES";
 }
 
+/** Parse a comma-separated query param (e.g. ?kinds=) into a trimmed list. */
+export function parseCsvParam(v: unknown): string[] {
+  return typeof v === "string" && v ? v.split(",").map((s) => s.trim()).filter(Boolean) : [];
+}
+
+/** Coerce a query param to a plain string (e.g. ?search=). */
+export function strParam(v: unknown): string {
+  return typeof v === "string" ? v : "";
+}
+
 export type Photo = { small: string; large: string; full: string; width: number; height: number };
 
 export type Item = {
