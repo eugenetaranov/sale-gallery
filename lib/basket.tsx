@@ -11,6 +11,7 @@ import {
   useContext,
   useEffect,
   useMemo,
+  useRef,
   useState,
 } from "react";
 import type { Item } from "@/lib/airtable";
@@ -54,7 +55,15 @@ export function BasketProvider({ children }: { children: React.ReactNode }) {
     return () => window.removeEventListener("storage", onStorage);
   }, []);
 
+  // Skip the very first run: on mount `ids` is still the empty initial state, so
+  // persisting it would clobber the stored basket to [] before hydration reads
+  // it — which wiped the basket when navigating to /basket and back.
+  const persisted = useRef(false);
   useEffect(() => {
+    if (!persisted.current) {
+      persisted.current = true;
+      return;
+    }
     try {
       localStorage.setItem(STORAGE_KEY, JSON.stringify(ids));
     } catch {
