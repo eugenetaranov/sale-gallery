@@ -132,7 +132,13 @@ export default function ItemDetail({
                   </span>
                 )}
                 {item.status && (
-                  <span className="rounded bg-green-50 px-2 py-0.5 text-[11px] text-green-700">
+                  <span
+                    className={`rounded px-2 py-0.5 text-[11px] ${
+                      item.status === "Reserved"
+                        ? "bg-amber-100 text-amber-800"
+                        : "bg-green-50 text-green-700"
+                    }`}
+                  >
                     {tStatus(item.status, lang)}
                   </span>
                 )}

@@ -61,6 +61,11 @@ function Row({
                   ×{item.quantity}
                 </span>
               )}
+              {item.status === "Reserved" && (
+                <span className="rounded-full bg-amber-100 px-1.5 py-0.5 text-[11px] font-semibold text-amber-800">
+                  {tStatus("Reserved", lang)}
+                </span>
+              )}
             </div>
           )}
         </div>

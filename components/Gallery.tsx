@@ -13,7 +13,10 @@ import SectionSwitch from "@/components/SectionSwitch";
 import { useBasket } from "@/lib/basket";
 import { useStoredLang } from "@/lib/useStoredLang";
 
-const SALE_STATUSES = ["Ready", "Listed"];
+// Actively available items. Reserved items are also shown on screen (marked as
+// on hold), but stay out of the printed PDF catalog.
+const AVAILABLE_STATUSES = ["Ready", "Listed"];
+const VISIBLE_STATUSES = ["Ready", "Listed", "Reserved"];
 
 // A target price of exactly 0 means the item is a giveaway ("Free"); any other
 // value (including null = unknown) belongs to the paid "For sale" tab.
@@ -72,9 +75,9 @@ export default function Gallery({
     [items]
   );
 
-  // Tab counts: how many listable (Ready/Listed) items are free vs for sale.
+  // Tab counts cover everything shown on screen (incl. reserved).
   const listable = useMemo(
-    () => items.filter((i) => SALE_STATUSES.includes(i.status)),
+    () => items.filter((i) => VISIBLE_STATUSES.includes(i.status)),
     [items]
   );
   const freeCount = useMemo(() => listable.filter(isFree).length, [listable]);
@@ -88,7 +91,7 @@ export default function Gallery({
   const saleItems = useMemo(
     () =>
       items
-        .filter((i) => SALE_STATUSES.includes(i.status))
+        .filter((i) => AVAILABLE_STATUSES.includes(i.status))
         .sort((a, b) => {
           if (a.kind !== b.kind) return a.kind.localeCompare(b.kind);
           const pa = a.targetPrice ?? Number.POSITIVE_INFINITY;
@@ -101,7 +104,7 @@ export default function Gallery({
   const filtered = useMemo(() => {
     const q = query.trim().toLowerCase();
     const result = items.filter((i) => {
-      if (!SALE_STATUSES.includes(i.status)) return false;
+      if (!VISIBLE_STATUSES.includes(i.status)) return false;
       // Split the two tabs: "free" shows only giveaways, "sale" only the rest.
       if (activeTab === "free" ? !isFree(i) : isFree(i)) return false;
       if (selectedKinds.length && !selectedKinds.includes(i.kind)) return false;

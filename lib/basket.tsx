@@ -105,9 +105,10 @@ export function parseBasketIds(param: string | null | undefined): string[] {
   return param.split(",").map((s) => s.trim()).filter(Boolean);
 }
 
-// Items are only offered while Ready/Listed; a basketed item whose record still
-// exists but has moved on (Reserved/Sold/Given away/…) counts as unavailable.
-const LISTABLE_STATUSES = ["Ready", "Listed"];
+// Statuses still shown as live in the basket. Reserved items stay on the list
+// (marked as reserved in the row); only items that have truly moved on
+// (Sold / Given away / Kept / Draft / deleted) count as unavailable.
+const LISTABLE_STATUSES = ["Ready", "Listed", "Reserved"];
 
 export type ResolvedBasket = {
   available: Item[]; // resolved + still listable, in the order they were added

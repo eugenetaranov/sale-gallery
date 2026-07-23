@@ -1,7 +1,7 @@
 "use client";
 
 import { isTallPhoto, nameFor, type Item, type Lang } from "@/lib/airtable";
-import { t, tCondition, tKind } from "@/lib/i18n";
+import { t, tCondition, tKind, tStatus } from "@/lib/i18n";
 import ShareButton from "@/components/ShareButton";
 import BasketToggle from "@/components/BasketToggle";
 
@@ -23,6 +23,7 @@ export default function ItemCard({
 }) {
   const cover = item.photos[0];
   const title = nameFor(item, lang);
+  const reserved = item.status === "Reserved";
 
   return (
     <div
@@ -52,6 +53,15 @@ export default function ItemCard({
         ) : (
           <div className="absolute inset-0 flex items-center justify-center text-xs text-gray-400">
             sin foto
+          </div>
+        )}
+        {reserved && (
+          // Marker only — clicks pass through so the item stays openable and
+          // addable to the basket (a reserved item can still be on the wishlist).
+          <div className="pointer-events-none absolute inset-0 flex items-center justify-center bg-black/10">
+            <span className="rounded-full bg-amber-500 px-3 py-1 text-[11px] font-bold uppercase tracking-wide text-white shadow">
+              {tStatus("Reserved", lang)}
+            </span>
           </div>
         )}
         {item.photos.length > 1 && (
